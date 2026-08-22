@@ -95,6 +95,17 @@ test.describe('operations dashboard', () => {
     await expect(page.locator('#monthly-row-count')).toHaveText('3');
     await expect(page.locator('#monthly-flight-rows tr')).toHaveCount(3);
   });
+
+  test('shows inventory, order queue, and station transfers', async ({ page }) => {
+    await expect(page.getByRole('heading', { name: 'Parts inventory' })).toBeVisible();
+    await expect(page.locator('#inventory-list .part-row')).toHaveCount(3);
+    await expect(page.getByRole('heading', { name: 'Parts to order' })).toBeVisible();
+    await expect(page.locator('#order-list .part-row')).toHaveCount(2);
+    await expect(page.getByRole('heading', { name: 'Station transfers' })).toBeVisible();
+    await expect(page.locator('#transfer-list .part-row')).toHaveCount(3);
+    await expect(page.locator('#inventory-list')).toContainText('Quarantined');
+    await expect(page.locator('#transfer-list')).toContainText('LHR-H1 → JFK-H2');
+  });
 });
 
 test.describe('responsive dashboard', () => {

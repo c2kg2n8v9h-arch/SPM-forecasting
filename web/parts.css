@@ -1,0 +1,57 @@
+.parts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 17px;
+  margin-top: 17px;
+}
+
+.parts-panel {
+  padding-bottom: 0;
+}
+
+.parts-panel .panel-heading {
+  margin-bottom: 12px;
+}
+
+.green-badge { color: var(--green); background: var(--green-bg); }
+.blue-badge { color: var(--blue); background: var(--blue-bg); }
+
+.parts-list { display: grid; gap: 0; }
+
+.part-row {
+  min-height: 57px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-bottom: 1px solid #eff3f2;
+}
+
+.part-symbol {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  color: var(--teal);
+  background: #e8f4f1;
+  font-size: 12px;
+}
+
+.order-symbol { color: var(--red); background: var(--red-bg); font-weight: 700; }
+.transfer-symbol { color: var(--blue); background: var(--blue-bg); }
+.part-info { min-width: 0; flex: 1; }
+.part-info strong, .part-info small { display: block; }
+.part-info strong { color: var(--ink); font-size: 11px; }
+.part-info small { color: #93a0a2; font-size: 9px; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.part-due { color: var(--amber); font-size: 9px; font-weight: 600; white-space: nowrap; }
+.parts-panel .status-pill { font-size: 9px; padding: 4px 6px; white-space: nowrap; }
+
+@media (max-width: 1050px) {
+  .parts-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+  .month-summary { width: 100%; justify-content: space-between; }
+  .monthly-tools { justify-content: stretch; }
+}

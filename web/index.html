@@ -6,6 +6,7 @@
     <meta name="description" content="Offline mock dashboard for MRO parts forecasting and staging">
     <title>SPM | Operations Control</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="parts.css">
   </head>
   <body>
     <div class="app-shell">
@@ -74,6 +75,23 @@
             <div class="table-tools monthly-tools"><label class="search-box">⌕<input id="monthly-search" type="search" placeholder="Search flight, tail, or route" aria-label="Search monthly flights"></label><span class="mock-tag">MOCK SCHEDULE</span></div>
             <div class="table-scroll"><table><thead><tr><th>Flight / aircraft</th><th>Route</th><th>Departure</th><th>Arrival</th><th>Station</th><th>Operational status</th></tr></thead><tbody id="monthly-flight-rows"></tbody></table></div>
             <div class="table-footer"><span>Showing <strong id="monthly-row-count">12</strong> of 12 scheduled flights</span><span class="muted">Month: August 2026</span></div>
+          </section>
+          <section class="parts-grid" aria-label="Parts operations">
+            <article class="panel parts-panel">
+              <div class="panel-heading"><div><h2>Parts inventory</h2><p class="muted">Serialized stock and compliance state</p></div><span class="count-badge green-badge">6 tracked</span></div>
+              <div class="parts-list" id="inventory-list"></div>
+              <button class="panel-footer" data-view-link="procurement">Open inventory detail <span>→</span></button>
+            </article>
+            <article class="panel parts-panel">
+              <div class="panel-heading"><div><h2>Parts to order</h2><p class="muted">No compliant stock available</p></div><span class="count-badge">2 open</span></div>
+              <div class="parts-list" id="order-list"></div>
+              <button class="panel-footer" data-view-link="procurement">Review purchase queue <span>→</span></button>
+            </article>
+            <article class="panel parts-panel">
+              <div class="panel-heading"><div><h2>Station transfers</h2><p class="muted">Parts moved between airports</p></div><span class="count-badge blue-badge">3 active</span></div>
+              <div class="parts-list" id="transfer-list"></div>
+              <button class="panel-footer" data-view-link="staging">Track all transfers <span>→</span></button>
+            </article>
           </section>
           <footer class="page-footer"><span>SPM Operations Control · Offline demonstration</span><span><i></i> No live systems connected</span></footer>
         </div>

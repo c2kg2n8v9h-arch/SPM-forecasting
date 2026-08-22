@@ -42,6 +42,9 @@ All tests use deterministic local mock data. No test connects to live APIs, ERP/
 | UI-018 | Responsive layout | Open the dashboard in mobile Chrome | Greeting, search, and status controls remain usable without horizontal page overflow |
 | UI-019 | Monthly schedule | Open the dashboard and inspect the August schedule | All 12 mock flights are visible with route, departure, arrival, station, and operational status |
 | UI-020 | Monthly schedule search | Search `N200SP` in the August schedule | Exactly 3 matching monthly flights remain visible |
+| UI-021 | Parts inventory | Open the dashboard and inspect Parts inventory | Serialized part numbers, serials, stations, and Verified/Quarantined states are visible |
+| UI-022 | Parts to order | Inspect the Parts to order panel | Parts with no compliant stock show a reason and urgency/demand due indicator |
+| UI-023 | Station transfers | Inspect the Station transfers panel | Active part movements show source station, destination station, and ETA/status |
 
 ## Execution
 

@@ -20,6 +20,21 @@ const monthlyFlights = [
   { flight: 'SPM 112', tail: 'N442SP', route: 'DXB → LHR', departure: '30 Aug · 03:40', arrival: '30 Aug · 08:25', station: 'DXB-H3', status: 'On time', tone: 'green' },
 ];
 
+const inventory = [
+  { part: 'PUMP-100', serial: 'SN-001', station: 'LHR-H1', state: 'Verified', tone: 'green' },
+  { part: 'VALVE-200', serial: 'SN-002', station: 'JFK-H2', state: 'Quarantined', tone: 'red' },
+  { part: 'FILTER-318', serial: 'SN-318', station: 'DXB-H3', state: 'Verified', tone: 'green' },
+];
+const orders = [
+  { part: 'VALVE-200', reason: 'No compliant stock', due: 'MEL · 36h', tone: 'red' },
+  { part: 'ACTUATOR-442', reason: 'Network stockout', due: 'Demand · 7d', tone: 'yellow' },
+];
+const transfers = [
+  { part: 'PUMP-100', route: 'LHR-H1 → JFK-H2', eta: 'ETA 14:30', tone: 'green' },
+  { part: 'FILTER-318', route: 'DXB-H3 → SIN-H1', eta: 'In transit', tone: 'yellow' },
+  { part: 'ACTUATOR-442', route: 'SIN-H1 → LHR-H1', eta: 'ETA 22 Aug', tone: 'blue' },
+];
+
 const rows = document.querySelector('#arrival-rows');
 const search = document.querySelector('#search-input');
 const filter = document.querySelector('#status-filter');
@@ -59,6 +74,12 @@ function renderMonthlyFlights() {
   document.querySelector('#monthly-row-count').textContent = filtered.length;
 }
 
+function renderPartsOperations() {
+  document.querySelector('#inventory-list').innerHTML = inventory.map((item) => `<div class="part-row"><span class="part-symbol">▣</span><span class="part-info"><strong>${item.part}</strong><small>${item.serial} · ${item.station}</small></span><span class="status-pill status-${item.tone}">${item.state}</span></div>`).join('');
+  document.querySelector('#order-list').innerHTML = orders.map((item) => `<div class="part-row"><span class="part-symbol order-symbol">!</span><span class="part-info"><strong>${item.part}</strong><small>${item.reason}</small></span><span class="part-due">${item.due}</span></div>`).join('');
+  document.querySelector('#transfer-list').innerHTML = transfers.map((item) => `<div class="part-row"><span class="part-symbol transfer-symbol">↗</span><span class="part-info"><strong>${item.part}</strong><small>${item.route}</small></span><span class="status-pill status-${item.tone === 'blue' ? 'green' : item.tone}">${item.eta}</span></div>`).join('');
+}
+
 document.querySelectorAll('[data-view], [data-view-link]').forEach((control) => {
   control.addEventListener('click', () => {
     const view = control.dataset.view || control.dataset.viewLink;
@@ -76,3 +97,4 @@ document.querySelector('#refresh-button').addEventListener('click', () => showTo
 document.querySelector('#export-button').addEventListener('click', () => showToast('Briefing prepared locally; no file was uploaded'));
 renderRows();
 renderMonthlyFlights();
+renderPartsOperations();
