@@ -123,7 +123,7 @@ function renderMonthlyFlights() {
 function renderPartsOperations() {
   document.querySelector('#inventory-list').innerHTML = inventory.map((item) => `<div class="part-row"><span class="part-symbol">▣</span><span class="part-info"><strong>${item.part}</strong><small>${item.serial} · ${item.station}</small></span><span class="status-pill status-${item.tone}">${item.state}</span></div>`).join('');
   document.querySelector('#order-list').innerHTML = orders.map((item) => `<div class="part-row"><span class="part-symbol order-symbol">!</span><span class="part-info"><strong>${item.part}</strong><small>${item.reason}</small></span><span class="part-due">${item.due}</span></div>`).join('');
-  document.querySelector('#transfer-list').innerHTML = transfers.map((item) => `<div class="part-row"><span class="part-symbol transfer-symbol">↗</span><span class="part-info"><strong>${item.part}</strong><small>${item.route}</small></span><span class="status-pill status-${item.tone === 'blue' ? 'green' : item.tone}">${item.eta}</span></div>`).join('');
+  document.querySelector('#transfer-list').innerHTML = transfers.map((item) => `<div class="part-row"><span class="part-symbol transfer-symbol">↗</span><span class="part-info"><strong>${item.part}</strong><small>${item.route}</small></span><span class="status-pill status-${item.tone}">${item.eta}</span></div>`).join('');
 }
 
 function renderDemandReport() {

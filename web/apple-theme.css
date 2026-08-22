@@ -12,6 +12,8 @@
   --pale-green-strong: #2f8f45;
   --amber: #b76300;
   --amber-bg: #fff6b8;
+  --orange: #e87518;
+  --orange-bg: #ffead7;
   --lemon-yellow: #f4df32;
   --lemon-yellow-bg: #fffbd1;
   --red: #d63b4a;
@@ -21,6 +23,9 @@
   --purple: #7652c7;
   --purple-bg: #eee8ff;
 }
+
+.status-blue { color: var(--blue); background: var(--blue-bg); }
+.status-orange { color: var(--orange); background: var(--orange-bg); }
 
 body { background: radial-gradient(circle at 100% 0%, #dff7f2 0, transparent 25%), var(--canvas); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", sans-serif; }
 .sidebar { width: 252px; background: rgba(255, 255, 255, .92); color: #6e6e73; border-right: 1px solid var(--line); padding: 30px 17px 20px; }

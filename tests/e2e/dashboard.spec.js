@@ -110,6 +110,8 @@ test.describe('operations dashboard', () => {
     await expect(page.locator('#transfer-list .part-row')).toHaveCount(3);
     await expect(page.locator('#inventory-list')).toContainText('Quarantined');
     await expect(page.locator('#transfer-list')).toContainText('LHR-H1 → JFK-H2');
+    await expect(page.locator('#transfer-list .status-blue')).toHaveCount(1);
+    await expect(page.locator('#order-list .part-due')).toHaveCount(2);
   });
 
   test('shows actual numbers beside the graphical forecast report', async ({ page }) => {
