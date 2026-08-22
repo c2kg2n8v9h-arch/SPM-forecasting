@@ -20,6 +20,8 @@ The input CSV must contain a `value` column and may include a `date` column. Exa
 - `domain/` contains immutable business models and forecasting rules.
 - `application/` contains use cases and orchestration.
 - `infrastructure/` contains file and external-system adapters.
+- `infrastructure/integration_ports.py` defines stable contracts for approved live adapters.
+- `infrastructure/runtime.py` selects providers and fails closed when live mode is unconfigured.
 - `interfaces/` contains entry points for CLI and future HTTP adapters.
 - `tests/unit/` and `tests/integration/` separate fast business tests from boundary tests.
 - `TEST_CASES.md` lists the action and expected result for each automated scenario.
@@ -42,6 +44,12 @@ Open `http://localhost:8080` to view the dashboard. Search, status filtering, na
 `spm-demo` uses only deterministic fixtures in `infrastructure/mock_data.py`. The project intentionally has no HTTP clients, cloud SDKs, ERP/MRO connectors, email sender, credentials, telemetry exporter, or live-environment configuration. A purchase-order recommendation is printed as a `mock_pending_approval` artifact only; it is never emailed or submitted.
 
 The mock workflow treats a part as available only when its serialized record has verified airworthiness documentation. It also reports MEL urgency, missing stock, documentation quarantine, weather, and support-vehicle constraints.
+
+## Live-system readiness
+
+The application is structurally ready for approved live integrations through typed system, network, and email ports. The runtime remains fail-closed: `SPM_MODE=mock` is the default, while `SPM_MODE=live` raises an error until reviewed adapters are supplied by the deployment team. No live connector, endpoint, credential, or transmission is included in this repository.
+
+Use `.env.example` only as a configuration reference. Store real credentials in an approved secret manager, never in source control. Before enabling live mode, add contract tests, allowlisted endpoints, TLS verification, timeouts, retries, audit logging, RBAC, data minimization, and an approval/change-control review.
 
 Mock integration components:
 

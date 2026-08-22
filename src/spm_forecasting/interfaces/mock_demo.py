@@ -5,7 +5,7 @@ import argparse
 from ..application.mock_integrations import MockIntegrationWorkflow
 from ..application.mock_operations import MockOperationsService
 from ..infrastructure.mock_data import load_demo_data
-from ..infrastructure.mock_services import MockEmailService, MockNetworkService, MockSystemGateway
+from ..infrastructure.runtime import build_integrations
 
 
 def main() -> None:
@@ -13,10 +13,11 @@ def main() -> None:
     parser.parse_args()
     visits, inventory, constraints = load_demo_data()
     service = MockOperationsService()
+    providers = build_integrations()
     integrations = MockIntegrationWorkflow(
-        system=MockSystemGateway(),
-        network=MockNetworkService(),
-        email=MockEmailService(),
+        system=providers.system,
+        network=providers.network,
+        email=providers.email,
     )
     required_parts = tuple(part for visit in visits for part in visit.required_parts)
 
