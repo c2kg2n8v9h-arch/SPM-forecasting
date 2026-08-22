@@ -47,6 +47,14 @@
             <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">Forecast accuracy</span><span class="kpi-icon purple">⌁</span></div><strong>87.4<span class="denom">%</span></strong><span class="kpi-detail positive">↑ 4.1% <small>this month</small></span></article>
           </section>
 
+          <section class="panel report-panel">
+            <div class="panel-heading"><div><h2>Actual vs forecast report</h2><p class="muted">August maintenance demand · daily comparison</p></div><span class="mock-tag">MOCK REPORT</span></div>
+            <div class="report-grid">
+              <div class="actual-table-wrap"><div class="report-label">Actual numbers</div><table class="actual-table"><thead><tr><th>Date</th><th>Required parts</th><th>Parts consumed</th><th>Variance</th></tr></thead><tbody id="actual-report-rows"></tbody></table></div>
+              <div class="report-chart-wrap"><div class="chart-header"><span class="report-label">Graphical representation</span><span class="chart-legend"><i class="actual-key"></i>Actual <i class="forecast-key"></i>Forecast</span></div><svg id="forecast-chart" viewBox="0 0 620 190" role="img" aria-label="Actual and forecast parts demand chart"><path class="report-grid-line" d="M20 160H600M20 110H600M20 60H600M20 10H600"/><path class="forecast-area" d="M20 125 L116 105 L212 112 L308 78 L404 83 L500 52 L596 61 L596 160 L20 160Z"/><path class="forecast-line" d="M20 125 L116 105 L212 112 L308 78 L404 83 L500 52 L596 61"/><path class="actual-line" d="M20 133 L116 98 L212 119 L308 70 L404 91 L500 44 L596 48"/><circle class="actual-point" cx="20" cy="133" r="4"/><circle class="actual-point" cx="116" cy="98" r="4"/><circle class="actual-point" cx="212" cy="119" r="4"/><circle class="actual-point" cx="308" cy="70" r="4"/><circle class="actual-point" cx="404" cy="91" r="4"/><circle class="actual-point" cx="500" cy="44" r="4"/><circle class="actual-point" cx="596" cy="48" r="4"/></svg><div class="chart-axis"><span>01 Aug</span><span>07 Aug</span><span>14 Aug</span><span>21 Aug</span><span>31 Aug</span></div></div>
+            </div>
+          </section>
+
           <section class="content-grid">
             <article class="panel readiness-panel">
               <div class="panel-heading"><div><h2>Fleet readiness</h2><p class="muted">Incoming aircraft · next 24 hours</p></div><button class="text-button" data-view-link="staging">View staging board →</button></div>

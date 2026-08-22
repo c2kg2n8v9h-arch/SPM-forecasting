@@ -106,6 +106,15 @@ test.describe('operations dashboard', () => {
     await expect(page.locator('#inventory-list')).toContainText('Quarantined');
     await expect(page.locator('#transfer-list')).toContainText('LHR-H1 → JFK-H2');
   });
+
+  test('shows actual numbers beside the graphical forecast report', async ({ page }) => {
+    await expect(page.getByRole('heading', { name: 'Actual vs forecast report' })).toBeVisible();
+    await expect(page.getByText('Actual numbers')).toBeVisible();
+    await expect(page.locator('#actual-report-rows tr')).toHaveCount(7);
+    await expect(page.locator('#forecast-chart')).toBeVisible();
+    await expect(page.locator('.chart-legend')).toContainText('Actual');
+    await expect(page.locator('.chart-legend')).toContainText('Forecast');
+  });
 });
 
 test.describe('responsive dashboard', () => {

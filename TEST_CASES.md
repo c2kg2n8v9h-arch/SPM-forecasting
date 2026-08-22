@@ -45,6 +45,8 @@ All tests use deterministic local mock data. No test connects to live APIs, ERP/
 | UI-021 | Parts inventory | Open the dashboard and inspect Parts inventory | Serialized part numbers, serials, stations, and Verified/Quarantined states are visible |
 | UI-022 | Parts to order | Inspect the Parts to order panel | Parts with no compliant stock show a reason and urgency/demand due indicator |
 | UI-023 | Station transfers | Inspect the Station transfers panel | Active part movements show source station, destination station, and ETA/status |
+| UI-024 | Actual report | Open Actual vs forecast report | Actual numbers table shows seven dated rows with required, consumed, and variance values |
+| UI-025 | Graphical report | Inspect the graphical representation | Actual and Forecast series render together with a visible legend |
 
 ## Execution
 

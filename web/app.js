@@ -34,6 +34,12 @@ const transfers = [
   { part: 'FILTER-318', route: 'DXB-H3 → SIN-H1', eta: 'In transit', tone: 'yellow' },
   { part: 'ACTUATOR-442', route: 'SIN-H1 → LHR-H1', eta: 'ETA 22 Aug', tone: 'blue' },
 ];
+const demandReport = [
+  { date: '01 Aug', required: 18, consumed: 17 }, { date: '07 Aug', required: 22, consumed: 24 },
+  { date: '14 Aug', required: 20, consumed: 19 }, { date: '18 Aug', required: 28, consumed: 30 },
+  { date: '21 Aug', required: 26, consumed: 25 }, { date: '26 Aug', required: 32, consumed: 34 },
+  { date: '31 Aug', required: 30, consumed: 33 },
+];
 
 const rows = document.querySelector('#arrival-rows');
 const search = document.querySelector('#search-input');
@@ -80,6 +86,13 @@ function renderPartsOperations() {
   document.querySelector('#transfer-list').innerHTML = transfers.map((item) => `<div class="part-row"><span class="part-symbol transfer-symbol">↗</span><span class="part-info"><strong>${item.part}</strong><small>${item.route}</small></span><span class="status-pill status-${item.tone === 'blue' ? 'green' : item.tone}">${item.eta}</span></div>`).join('');
 }
 
+function renderDemandReport() {
+  document.querySelector('#actual-report-rows').innerHTML = demandReport.map((item) => {
+    const variance = item.consumed - item.required;
+    return `<tr><td>${item.date}</td><td>${item.required}</td><td>${item.consumed}</td><td class="${variance > 0 ? 'variance-high' : 'variance-low'}">${variance > 0 ? '+' : ''}${variance}</td></tr>`;
+  }).join('');
+}
+
 document.querySelectorAll('[data-view], [data-view-link]').forEach((control) => {
   control.addEventListener('click', () => {
     const view = control.dataset.view || control.dataset.viewLink;
@@ -98,3 +111,4 @@ document.querySelector('#export-button').addEventListener('click', () => showToa
 renderRows();
 renderMonthlyFlights();
 renderPartsOperations();
+renderDemandReport();
