@@ -22,6 +22,7 @@ The input CSV must contain a `value` column and may include a `date` column. Exa
 - `infrastructure/` contains file and external-system adapters.
 - `interfaces/` contains entry points for CLI and future HTTP adapters.
 - `tests/unit/` and `tests/integration/` separate fast business tests from boundary tests.
+- `TEST_CASES.md` lists the action and expected result for each automated scenario.
 - `.github/workflows/ci.yml` runs linting and tests on every push and pull request.
 - `Dockerfile` and `Makefile` provide repeatable local and deployment workflows.
 - `data/sample.csv` contains a small example dataset.
