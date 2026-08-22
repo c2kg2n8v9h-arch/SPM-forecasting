@@ -56,3 +56,17 @@ Run the checks with:
 ```powershell
 python -m unittest discover -s tests -v
 ```
+
+## UI end-to-end tests
+
+Install the local browser test dependency and run the complete desktop/mobile mock UI matrix:
+
+```powershell
+npm install
+npx playwright install chromium
+npm run test:e2e
+```
+
+The Playwright configuration starts the static dashboard on `127.0.0.1` and tests only bundled mock data. It does not call external APIs, email, ERP/MRO systems, analytics, or live environments.
+
+CI runs the same suite in Chromium desktop and mobile projects. Test reports and browser artifacts are intentionally excluded from Git.

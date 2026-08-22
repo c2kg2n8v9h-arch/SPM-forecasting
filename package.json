@@ -1,0 +1,14 @@
+{
+  "name": "spm-forecasting-ui-tests",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Local Playwright tests for the mock SPM operations dashboard",
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.0"
+  }
+}

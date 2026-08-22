@@ -4,3 +4,6 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 forecast.csv
+node_modules/
+playwright-report/
+test-results/

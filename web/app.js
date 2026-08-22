@@ -38,9 +38,10 @@ function showToast(message) {
 document.querySelectorAll('[data-view], [data-view-link]').forEach((control) => {
   control.addEventListener('click', () => {
     const view = control.dataset.view || control.dataset.viewLink;
+    const labels = { overview: 'Overview', staging: 'Staging board', forecast: 'Demand forecast', procurement: 'Procurement' };
     document.querySelectorAll('.nav-item').forEach((item) => item.classList.toggle('active', item.dataset.view === view));
-    document.querySelector('#page-title').textContent = view.charAt(0).toUpperCase() + view.slice(1);
-    showToast(`${view.charAt(0).toUpperCase() + view.slice(1)} view is available in the mock workspace`);
+    document.querySelector('#page-title').textContent = labels[view];
+    showToast(`${labels[view]} view is available in the mock workspace`);
   });
 });
 
