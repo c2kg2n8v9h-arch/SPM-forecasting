@@ -8,8 +8,12 @@
   --teal-dark: #05636f;
   --green: #138a5b;
   --green-bg: #dff8ec;
+  --pale-green: #d8f3d6;
+  --pale-green-strong: #2f8f45;
   --amber: #b76300;
-  --amber-bg: #fff0c7;
+  --amber-bg: #fff6b8;
+  --lemon-yellow: #f4df32;
+  --lemon-yellow-bg: #fffbd1;
   --red: #d63b4a;
   --red-bg: #ffe3e5;
   --blue: #1769e0;
@@ -22,10 +26,10 @@ body { background: radial-gradient(circle at 100% 0%, #dff7f2 0, transparent 25%
 .sidebar { width: 252px; background: rgba(255, 255, 255, .92); color: #6e6e73; border-right: 1px solid var(--line); padding: 30px 17px 20px; }
 .brand { padding: 0 10px 43px; }.brand-mark { border-radius: 50%; background: #087f8c; color: #fff; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }.brand strong { color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, sans-serif; }.brand span { color: var(--muted); }
 .workspace-label { color: #86868b; letter-spacing: 1.1px; }.nav-item { color: #6e6e73; border-radius: 9px; padding: 12px; }.nav-item:hover, .nav-item.active { background: #dff7f3; color: var(--ink); }.nav-item.active { box-shadow: inset 3px 0 var(--teal); }.active .nav-icon { color: var(--teal); }
-.mock-lock { border-color: var(--line); background: #fafafa; }.mock-lock > span { color: var(--green); }.mock-lock strong, .user-row strong { color: var(--ink); }.mock-lock small, .user-row small { color: var(--muted); }.user-row { border-top-color: var(--line); }.avatar { background: #0071e3; }
+.mock-lock { border-color: #cfe4b7; background: var(--lemon-yellow-bg); }.mock-lock > span { color: var(--pale-green-strong); }.mock-lock strong, .user-row strong { color: var(--ink); }.mock-lock small, .user-row small { color: var(--muted); }.user-row { border-top-color: var(--line); }.avatar { background: #0071e3; }
 .topbar { background: rgba(255, 255, 255, .9); border-bottom-color: var(--line); }.breadcrumb { color: #86868b; }.breadcrumb strong { color: var(--ink); }.sync-status { color: var(--muted); }.icon-button, .top-button { color: #6e6e73; }.top-button:hover { color: var(--teal); }
 .page-wrap { max-width: 1440px; padding-top: 42px; }.page-heading h1 { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; font-weight: 700; letter-spacing: -1px; }.eyebrow { color: var(--teal); }.muted { color: var(--muted); }.primary-button { background: var(--blue); border-radius: 980px; box-shadow: 0 5px 15px #1769e033; }.primary-button:hover { background: #0d55c4; }.secondary-button { border-color: #c9e4e2; border-radius: 980px; background: var(--paper); }
-.kpi-card, .panel { border-color: #cfe4e3; border-radius: 12px; box-shadow: 0 6px 22px rgba(13, 84, 91, .08); }.kpi-card { background: rgba(255, 255, 255, .98); }.kpi-card > strong, .panel h2 { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; }.kpi-icon { border-radius: 50%; }.warning-card { border-color: #f0d6ad; background: #fffdf9; }
+.kpi-card, .panel { border-color: #cfe4e3; border-radius: 12px; box-shadow: 0 6px 22px rgba(13, 84, 91, .08); }.kpi-card { background: rgba(255, 255, 255, .98); }.kpi-card > strong, .panel h2 { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; }.kpi-icon { border-radius: 50%; }.warning-card { border-color: #eadb58; background: var(--lemon-yellow-bg); }.status-green { color: var(--pale-green-strong); background: var(--pale-green); }.status-yellow { color: #8c7200; background: var(--lemon-yellow-bg); }
 .donut { background: conic-gradient(var(--blue) 0 75%, #d8efec 75%); }.chart-area { fill: #dff7f3; }.chart-line, .actual-line { stroke: var(--blue); }.chart-line { stroke-width: 2; }.actual-point { fill: var(--blue); }.panel-footer, .text-button { color: var(--teal); }
 .table-tools select, .search-box, .hangar-controls select { border-color: var(--line); border-radius: 980px; }.part-tag { background: #f2f2f7; }.status-green { color: var(--green); background: var(--green-bg); }.status-yellow { color: var(--amber); background: var(--amber-bg); }.status-red { color: var(--red); background: var(--red-bg); }.mock-tag { color: var(--teal); background: var(--blue-bg); }.hangar-card { border-color: #e5e5ea; border-radius: 10px; }.hangar-code { border-radius: 50%; color: var(--teal); background: var(--blue-bg); }.report-grid-line, .grid-line { stroke: #e5e5ea; }
 .page-footer { color: #86868b; }
