@@ -69,4 +69,12 @@ npm run test:e2e
 
 The Playwright configuration starts the static dashboard on `127.0.0.1` and tests only bundled mock data. It does not call external APIs, email, ERP/MRO systems, analytics, or live environments.
 
+To watch the browser while the scripts run with a 250 ms action delay:
+
+```powershell
+npm run test:e2e:watch
+```
+
+For a custom delay, use `PW_HEADLESS=false PW_SLOW_MO=500 npx playwright test --headed` in Bash, or `$env:PW_HEADLESS="false"; $env:PW_SLOW_MO="500"; npx playwright test --headed` in PowerShell. CI remains headless unless explicitly overridden.
+
 CI runs the same suite in Chromium desktop and mobile projects. Test reports and browser artifacts are intentionally excluded from Git.

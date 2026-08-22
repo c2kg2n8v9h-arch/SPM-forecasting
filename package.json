@@ -5,10 +5,12 @@
   "description": "Local Playwright tests for the mock SPM operations dashboard",
   "scripts": {
     "test:e2e": "playwright test",
+    "test:e2e:watch": "cross-env PW_HEADLESS=false PW_SLOW_MO=250 playwright test --headed",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:report": "playwright show-report"
   },
   "devDependencies": {
-    "@playwright/test": "^1.54.0"
+    "@playwright/test": "^1.54.0",
+    "cross-env": "^7.0.3"
   }
 }

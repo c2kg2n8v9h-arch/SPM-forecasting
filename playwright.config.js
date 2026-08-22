@@ -8,6 +8,8 @@ module.exports = defineConfig({
   reporter: [['html', { open: 'never' }], ['list']],
   use: {
     baseURL: 'http://127.0.0.1:8080',
+    headless: process.env.PW_HEADLESS !== 'false',
+    slowMo: Number(process.env.PW_SLOW_MO || 0),
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
