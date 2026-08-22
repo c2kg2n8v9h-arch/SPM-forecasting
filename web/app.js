@@ -5,10 +5,26 @@ const arrivals = [
   { tail: 'N442SP', station: 'SIN-H1', arrival: 'Today, 18:15', part: 'ACTUATOR-442', compliance: 'Verified', constraint: 'Clear', status: 'green', label: 'Ready' },
 ];
 
+const monthlyFlights = [
+  { flight: 'SPM 101', tail: 'N100SP', route: 'LHR → JFK', departure: '01 Aug · 06:20', arrival: '01 Aug · 09:05', station: 'LHR-H1', status: 'On time', tone: 'green' },
+  { flight: 'SPM 102', tail: 'N200SP', route: 'JFK → LHR', departure: '03 Aug · 11:40', arrival: '03 Aug · 23:10', station: 'JFK-H2', status: 'Parts watch', tone: 'red' },
+  { flight: 'SPM 103', tail: 'N318SP', route: 'DXB → SIN', departure: '05 Aug · 02:15', arrival: '05 Aug · 12:40', station: 'DXB-H3', status: 'On time', tone: 'green' },
+  { flight: 'SPM 104', tail: 'N442SP', route: 'SIN → SYD', departure: '07 Aug · 18:00', arrival: '08 Aug · 03:15', station: 'SIN-H1', status: 'On time', tone: 'green' },
+  { flight: 'SPM 105', tail: 'N100SP', route: 'JFK → LHR', departure: '10 Aug · 14:10', arrival: '11 Aug · 01:40', station: 'JFK-H2', status: 'MEL monitored', tone: 'yellow' },
+  { flight: 'SPM 106', tail: 'N200SP', route: 'LHR → DXB', departure: '12 Aug · 20:35', arrival: '13 Aug · 06:55', station: 'LHR-H1', status: 'On time', tone: 'green' },
+  { flight: 'SPM 107', tail: 'N318SP', route: 'DXB → LHR', departure: '15 Aug · 09:25', arrival: '15 Aug · 14:10', station: 'DXB-H3', status: 'Ground watch', tone: 'yellow' },
+  { flight: 'SPM 108', tail: 'N442SP', route: 'SYD → SIN', departure: '18 Aug · 05:50', arrival: '18 Aug · 12:20', station: 'SIN-H1', status: 'On time', tone: 'green' },
+  { flight: 'SPM 109', tail: 'N100SP', route: 'LHR → JFK', departure: '21 Aug · 06:20', arrival: '21 Aug · 09:05', station: 'LHR-H1', status: 'Parts watch', tone: 'red' },
+  { flight: 'SPM 110', tail: 'N200SP', route: 'JFK → SIN', departure: '24 Aug · 16:45', arrival: '26 Aug · 06:30', station: 'JFK-H2', status: 'On time', tone: 'green' },
+  { flight: 'SPM 111', tail: 'N318SP', route: 'SIN → DXB', departure: '27 Aug · 21:10', arrival: '28 Aug · 04:50', station: 'SIN-H1', status: 'MEL monitored', tone: 'yellow' },
+  { flight: 'SPM 112', tail: 'N442SP', route: 'DXB → LHR', departure: '30 Aug · 03:40', arrival: '30 Aug · 08:25', station: 'DXB-H3', status: 'On time', tone: 'green' },
+];
+
 const rows = document.querySelector('#arrival-rows');
 const search = document.querySelector('#search-input');
 const filter = document.querySelector('#status-filter');
 const toast = document.querySelector('#toast');
+const monthlySearch = document.querySelector('#monthly-search');
 
 function renderRows() {
   const query = search.value.trim().toLowerCase();
@@ -35,6 +51,14 @@ function showToast(message) {
   window.setTimeout(() => toast.classList.remove('show'), 2400);
 }
 
+function renderMonthlyFlights() {
+  const query = monthlySearch.value.trim().toLowerCase();
+  const filtered = monthlyFlights.filter((item) => `${item.flight} ${item.tail} ${item.route} ${item.station}`.toLowerCase().includes(query));
+  document.querySelector('#monthly-flight-rows').innerHTML = filtered.map((item) => `
+    <tr><td><div class="aircraft"><span class="plane-icon">✈</span><span><strong>${item.flight}</strong><small>${item.tail}</small></span></div></td><td>${item.route}</td><td>${item.departure}</td><td>${item.arrival}</td><td>${item.station}</td><td><span class="status-pill status-${item.tone}">${item.status}</span></td></tr>`).join('');
+  document.querySelector('#monthly-row-count').textContent = filtered.length;
+}
+
 document.querySelectorAll('[data-view], [data-view-link]').forEach((control) => {
   control.addEventListener('click', () => {
     const view = control.dataset.view || control.dataset.viewLink;
@@ -47,6 +71,8 @@ document.querySelectorAll('[data-view], [data-view-link]').forEach((control) => 
 
 search.addEventListener('input', renderRows);
 filter.addEventListener('change', renderRows);
+monthlySearch.addEventListener('input', renderMonthlyFlights);
 document.querySelector('#refresh-button').addEventListener('click', () => showToast('Mock data refreshed locally'));
 document.querySelector('#export-button').addEventListener('click', () => showToast('Briefing prepared locally; no file was uploaded'));
 renderRows();
+renderMonthlyFlights();

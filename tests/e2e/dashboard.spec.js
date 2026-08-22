@@ -87,6 +87,14 @@ test.describe('operations dashboard', () => {
     await expect(page.locator('.mock-lock')).toHaveCount(1);
     await expect(page.getByText('No live systems connected')).toBeVisible();
   });
+
+  test('shows all monthly mock flights and filters the schedule', async ({ page }) => {
+    await expect(page.getByRole('heading', { name: 'August flight schedule' })).toBeVisible();
+    await expect(page.locator('#monthly-flight-rows tr')).toHaveCount(12);
+    await page.locator('#monthly-search').fill('N200SP');
+    await expect(page.locator('#monthly-row-count')).toHaveText('3');
+    await expect(page.locator('#monthly-flight-rows tr')).toHaveCount(3);
+  });
 });
 
 test.describe('responsive dashboard', () => {

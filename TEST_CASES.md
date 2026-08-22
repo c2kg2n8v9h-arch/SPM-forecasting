@@ -40,6 +40,8 @@ All tests use deterministic local mock data. No test connects to live APIs, ERP/
 | UI-016 | Export action | Click Export briefing | Local toast says the briefing was prepared; no upload occurs |
 | UI-017 | Safety indicator | Open the dashboard | Mock mode and no-live-system indicators are visible |
 | UI-018 | Responsive layout | Open the dashboard in mobile Chrome | Greeting, search, and status controls remain usable without horizontal page overflow |
+| UI-019 | Monthly schedule | Open the dashboard and inspect the August schedule | All 12 mock flights are visible with route, departure, arrival, station, and operational status |
+| UI-020 | Monthly schedule search | Search `N200SP` in the August schedule | Exactly 3 matching monthly flights remain visible |
 
 ## Execution
 
