@@ -48,6 +48,7 @@
 .parts-panel .status-pill { font-size: 9px; padding: 4px 6px; white-space: nowrap; }
 .hangar-panel { margin-top: 17px; padding-bottom: 20px; }
 .hangar-controls { display: flex; align-items: center; gap: 9px; }.hangar-controls select { border: 1px solid var(--line); background: #fff; color: #53676a; border-radius: 5px; padding: 7px 8px; font-size: 11px; }
+.top-button { display: inline-flex; align-items: center; gap: 5px; color: #708084; font-size: 12px; position: relative; padding: 6px 4px; }.top-button:hover { color: var(--teal); }.top-button em { display: grid; place-items: center; width: 14px; height: 14px; border-radius: 50%; background: #d85a51; color: #fff; font-size: 8px; font-style: normal; margin-left: -3px; }
 .hangar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .hangar-card { display: flex; align-items: center; gap: 10px; padding: 11px; border: 1px solid #edf2f0; border-radius: 6px; }
 .hangar-code { display: grid; place-items: center; width: 36px; height: 30px; border-radius: 5px; color: var(--teal); background: #e8f4f1; font: 700 10px 'Trebuchet MS', sans-serif; }
