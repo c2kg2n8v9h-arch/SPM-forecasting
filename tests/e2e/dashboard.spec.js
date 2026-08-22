@@ -120,6 +120,14 @@ test.describe('operations dashboard', () => {
     await expect(page.locator('.chart-legend')).toContainText('Actual');
     await expect(page.locator('.chart-legend')).toContainText('Forecast');
   });
+
+  test('shows requested airport hangar locations', async ({ page }) => {
+    await expect(page.getByRole('heading', { name: 'Airport hangar network' })).toBeVisible();
+    await expect(page.locator('#hangar-list .hangar-card')).toHaveCount(6);
+    for (const city of ['Dallas', 'Atlanta', 'Chicago', 'Houston', 'Denver', 'Florida']) {
+      await expect(page.locator('#hangar-list')).toContainText(city);
+    }
+  });
 });
 
 test.describe('responsive dashboard', () => {

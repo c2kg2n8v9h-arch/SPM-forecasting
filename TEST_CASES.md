@@ -50,6 +50,7 @@ All tests use deterministic local mock data. No test connects to live APIs, ERP/
 | UI-026 | Staging board details | Select Staging board | Four aircraft visits show station, required part, documentation, MEL window, and next action |
 | UI-027 | Demand forecast details | Select Demand forecast | Four parts show stock, 30-day demand, confidence, signal, and recommendation |
 | UI-028 | Procurement details | Select Procurement | Three mock POs show quantity, priority, approval state, and next step |
+| UI-029 | Airport hangar network | Inspect the Airport hangar network panel | Dallas, Atlanta, Chicago, Houston, Denver, and Florida show airport code, hangar, capacity, readiness, and focus |
 
 ## Execution
 

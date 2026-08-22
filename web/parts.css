@@ -46,6 +46,11 @@
 .part-info small { color: #93a0a2; font-size: 9px; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .part-due { color: var(--amber); font-size: 9px; font-weight: 600; white-space: nowrap; }
 .parts-panel .status-pill { font-size: 9px; padding: 4px 6px; white-space: nowrap; }
+.hangar-panel { margin-top: 17px; padding-bottom: 20px; }
+.hangar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.hangar-card { display: flex; align-items: center; gap: 10px; padding: 11px; border: 1px solid #edf2f0; border-radius: 6px; }
+.hangar-code { display: grid; place-items: center; width: 36px; height: 30px; border-radius: 5px; color: var(--teal); background: #e8f4f1; font: 700 10px 'Trebuchet MS', sans-serif; }
+.hangar-info { min-width: 0; flex: 1; }.hangar-info strong, .hangar-info small { display: block; }.hangar-info strong { color: var(--ink); font-size: 11px; }.hangar-info small { color: #93a0a2; font-size: 9px; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }.hangar-card .status-pill { font-size: 9px; padding: 4px 6px; }
 .detail-view { margin-top: 17px; padding-bottom: 0; }
 .detail-view .panel-heading { margin-bottom: 14px; }
 .detail-table td { white-space: nowrap; }
@@ -70,9 +75,11 @@
 @media (max-width: 1050px) {
   .parts-grid { grid-template-columns: 1fr; }
   .report-grid { grid-template-columns: 1fr; }
+  .hangar-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 700px) {
   .month-summary { width: 100%; justify-content: space-between; }
   .monthly-tools { justify-content: stretch; }
+  .hangar-grid { grid-template-columns: 1fr; }
 }

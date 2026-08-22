@@ -34,6 +34,14 @@ const transfers = [
   { part: 'FILTER-318', route: 'DXB-H3 → SIN-H1', eta: 'In transit', tone: 'yellow' },
   { part: 'ACTUATOR-442', route: 'SIN-H1 → LHR-H1', eta: 'ETA 22 Aug', tone: 'blue' },
 ];
+const hangars = [
+  { city: 'Dallas', airport: 'DFW', hangar: 'DFW-H1', capacity: '12 aircraft', status: 'Ready', tone: 'green', focus: 'Rotable staging' },
+  { city: 'Atlanta', airport: 'ATL', hangar: 'ATL-H2', capacity: '10 aircraft', status: 'Ready', tone: 'green', focus: 'MEL support' },
+  { city: 'Chicago', airport: 'ORD', hangar: 'ORD-H1', capacity: '8 aircraft', status: 'At risk', tone: 'yellow', focus: 'Vehicle shortage' },
+  { city: 'Houston', airport: 'IAH', hangar: 'IAH-H3', capacity: '9 aircraft', status: 'Ready', tone: 'green', focus: 'Engine components' },
+  { city: 'Denver', airport: 'DEN', hangar: 'DEN-H1', capacity: '7 aircraft', status: 'At risk', tone: 'yellow', focus: 'Weather watch' },
+  { city: 'Florida', airport: 'MIA', hangar: 'MIA-H2', capacity: '11 aircraft', status: 'Ready', tone: 'green', focus: 'Line maintenance' },
+];
 const demandReport = [
   { date: '01 Aug', required: 18, consumed: 17 }, { date: '07 Aug', required: 22, consumed: 24 },
   { date: '14 Aug', required: 20, consumed: 19 }, { date: '18 Aug', required: 28, consumed: 30 },
@@ -125,6 +133,10 @@ function renderDemandReport() {
   }).join('');
 }
 
+function renderHangars() {
+  document.querySelector('#hangar-list').innerHTML = hangars.map((item) => `<div class="hangar-card"><div class="hangar-code">${item.airport}</div><div class="hangar-info"><strong>${item.city} · ${item.hangar}</strong><small>${item.capacity} · ${item.focus}</small></div><span class="status-pill status-${item.tone}">${item.status}</span></div>`).join('');
+}
+
 function renderDetailView(view) {
   const panel = document.querySelector('#detail-view');
   const detail = detailViews[view];
@@ -156,3 +168,4 @@ renderRows();
 renderMonthlyFlights();
 renderPartsOperations();
 renderDemandReport();
+renderHangars();
