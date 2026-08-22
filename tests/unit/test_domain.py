@@ -13,3 +13,11 @@ class DomainTests(unittest.TestCase):
     def test_request_rejects_insufficient_history(self):
         with self.assertRaises(ValueError):
             ForecastRequest((Observation(0, 10),), periods=1)
+
+    def test_request_rejects_non_finite_values(self):
+        with self.assertRaises(ValueError):
+            ForecastRequest((Observation(0, 10), Observation(1, float("nan"))), periods=1)
+
+    def test_service_rejects_non_numeric_values(self):
+        with self.assertRaises(TypeError):
+            ForecastingService().forecast([10, "12"], periods=1)

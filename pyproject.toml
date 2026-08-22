@@ -12,7 +12,7 @@ authors = [{ name = "SPM Forecasting" }]
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "ruff>=0.6"]
+dev = ["bandit>=1.7", "pip-audit>=2.7", "pytest>=8.0", "ruff>=0.6"]
 
 [project.scripts]
 spm-forecast = "spm_forecasting.cli:main"
