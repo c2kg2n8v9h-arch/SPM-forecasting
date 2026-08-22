@@ -14,10 +14,15 @@ spm-forecast --input data/sample.csv --periods 3
 
 The input CSV must contain a `value` column and may include a `date` column. Example output is written to `forecast.csv` unless `--output` is provided.
 
-## Project layout
+## Architecture
 
-- `src/spm_forecasting/` contains the forecasting library and CLI.
-- `tests/` contains unit tests.
+- `domain/` contains immutable business models and forecasting rules.
+- `application/` contains use cases and orchestration.
+- `infrastructure/` contains file and external-system adapters.
+- `interfaces/` contains entry points for CLI and future HTTP adapters.
+- `tests/unit/` and `tests/integration/` separate fast business tests from boundary tests.
+- `.github/workflows/ci.yml` runs linting and tests on every push and pull request.
+- `Dockerfile` and `Makefile` provide repeatable local and deployment workflows.
 - `data/sample.csv` contains a small example dataset.
 
 ## Development

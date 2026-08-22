@@ -1,0 +1,1 @@
+"""Adapters for external systems such as files, databases, and queues."""

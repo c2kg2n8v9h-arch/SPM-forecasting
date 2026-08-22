@@ -1,28 +1,10 @@
 """Command-line interface for generating forecasts from CSV files."""
 
 import argparse
-import csv
 from pathlib import Path
 
-from .forecast import linear_forecast
-
-
-def _read_values(path: Path) -> list[float]:
-    with path.open(newline="", encoding="utf-8") as input_file:
-        rows = csv.DictReader(input_file)
-        if not rows.fieldnames or "value" not in rows.fieldnames:
-            raise ValueError("input CSV must contain a 'value' column")
-        try:
-            return [float(row["value"]) for row in rows]
-        except (TypeError, ValueError) as error:
-            raise ValueError("every value entry must be numeric") from error
-
-
-def _write_forecast(path: Path, forecast) -> None:
-    with path.open("w", newline="", encoding="utf-8") as output_file:
-        writer = csv.writer(output_file)
-        writer.writerow(["period", "forecast"])
-        writer.writerows((point.period, f"{point.value:.4f}") for point in forecast)
+from .application.forecasting import ForecastingService
+from .infrastructure.csv_repository import read_values, write_forecast
 
 
 def main() -> None:
@@ -32,8 +14,8 @@ def main() -> None:
     parser.add_argument("--periods", type=int, default=3, help="number of future periods")
     args = parser.parse_args()
 
-    forecast = linear_forecast(_read_values(args.input), args.periods)
-    _write_forecast(args.output, forecast)
+    forecast = ForecastingService().forecast(read_values(args.input), args.periods)
+    write_forecast(args.output, forecast)
     print(f"Wrote {len(forecast)} forecast rows to {args.output}")
 
 

@@ -5,10 +5,14 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "spm-forecasting"
 version = "0.1.0"
-description = "Dependency-light forecasting tools for SPM process data"
+description = "Enterprise-ready forecasting service for SPM process data"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "SPM Forecasting" }]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6"]
 
 [project.scripts]
 spm-forecast = "spm_forecasting.cli:main"
@@ -18,3 +22,14 @@ where = ["src"]
 
 [tool.setuptools.package-dir]
 "" = "src"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

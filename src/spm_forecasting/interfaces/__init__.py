@@ -1,0 +1,1 @@
+"""User-facing adapters such as command-line and HTTP interfaces."""
