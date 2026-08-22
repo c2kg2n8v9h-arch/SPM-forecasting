@@ -134,7 +134,9 @@ function renderDemandReport() {
 }
 
 function renderHangars() {
-  document.querySelector('#hangar-list').innerHTML = hangars.map((item) => `<div class="hangar-card"><div class="hangar-code">${item.airport}</div><div class="hangar-info"><strong>${item.city} · ${item.hangar}</strong><small>${item.capacity} · ${item.focus}</small></div><span class="status-pill status-${item.tone}">${item.status}</span></div>`).join('');
+  const selectedLocation = document.querySelector('#location-filter').value;
+  const visibleHangars = hangars.filter((item) => selectedLocation === 'all' || item.city === selectedLocation);
+  document.querySelector('#hangar-list').innerHTML = visibleHangars.map((item) => `<div class="hangar-card"><div class="hangar-code">${item.airport}</div><div class="hangar-info"><strong>${item.city} · ${item.hangar}</strong><small>${item.capacity} · ${item.focus}</small></div><span class="status-pill status-${item.tone}">${item.status}</span></div>`).join('');
 }
 
 function renderDetailView(view) {
@@ -169,3 +171,4 @@ renderMonthlyFlights();
 renderPartsOperations();
 renderDemandReport();
 renderHangars();
+document.querySelector('#location-filter').addEventListener('change', renderHangars);

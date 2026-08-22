@@ -51,6 +51,8 @@ All tests use deterministic local mock data. No test connects to live APIs, ERP/
 | UI-027 | Demand forecast details | Select Demand forecast | Four parts show stock, 30-day demand, confidence, signal, and recommendation |
 | UI-028 | Procurement details | Select Procurement | Three mock POs show quantity, priority, approval state, and next step |
 | UI-029 | Airport hangar network | Inspect the Airport hangar network panel | Dallas, Atlanta, Chicago, Houston, Denver, and Florida show airport code, hangar, capacity, readiness, and focus |
+| UI-030 | Location dropdown | Select Dallas, Atlanta, Chicago, Houston, Denver, or Florida | Exactly one matching hangar card is shown for each selected location |
+| UI-031 | Location dropdown reset | Select a location, then select All locations | All six hangar cards are displayed again |
 
 ## Execution
 

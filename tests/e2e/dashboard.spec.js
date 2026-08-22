@@ -128,6 +128,20 @@ test.describe('operations dashboard', () => {
       await expect(page.locator('#hangar-list')).toContainText(city);
     }
   });
+
+  for (const location of ['Dallas', 'Atlanta', 'Chicago', 'Houston', 'Denver', 'Florida']) {
+    test(`filters hangars by ${location}`, async ({ page }) => {
+      await page.locator('#location-filter').selectOption(location);
+      await expect(page.locator('#hangar-list .hangar-card')).toHaveCount(1);
+      await expect(page.locator('#hangar-list')).toContainText(location);
+    });
+  }
+
+  test('restores all hangars from the location dropdown', async ({ page }) => {
+    await page.locator('#location-filter').selectOption('Denver');
+    await page.locator('#location-filter').selectOption('all');
+    await expect(page.locator('#hangar-list .hangar-card')).toHaveCount(6);
+  });
 });
 
 test.describe('responsive dashboard', () => {
