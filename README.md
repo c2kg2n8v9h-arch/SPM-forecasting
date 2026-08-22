@@ -32,6 +32,13 @@ The input CSV must contain a `value` column and may include a `date` column. Exa
 
 The mock workflow treats a part as available only when its serialized record has verified airworthiness documentation. It also reports MEL urgency, missing stock, documentation quarantine, weather, and support-vehicle constraints.
 
+Mock integration components:
+
+- `MockSystemGateway` records simulated ERP/MRO events in memory.
+- `MockNetworkService` records local request-shaped objects and rejects external URLs.
+- `MockEmailService` stores approval messages in an in-memory outbox and has no send method.
+- `MockIntegrationWorkflow` coordinates those adapters for routing and procurement scenarios.
+
 ## Development
 
 Run the checks with:
