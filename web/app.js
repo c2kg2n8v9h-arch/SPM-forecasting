@@ -41,6 +41,38 @@ const demandReport = [
   { date: '31 Aug', required: 30, consumed: 33 },
 ];
 
+const detailViews = {
+  staging: {
+    title: 'Staging board', subtitle: 'Live-style readiness view using local mock visits',
+    columns: ['Aircraft', 'Station', 'Required parts', 'Documentation', 'MEL window', 'Action'],
+    rows: [
+      ['N100SP', 'LHR-H1', 'PUMP-100', 'Verified', '36 hours', 'Ready to kit'],
+      ['N200SP', 'JFK-H2', 'VALVE-200', 'Quarantined', 'No MEL', 'Resolve certificate'],
+      ['N318SP', 'DXB-H3', 'FILTER-318', 'Verified', '72 hours', 'Vehicle wait'],
+      ['N442SP', 'SIN-H1', 'ACTUATOR-442', 'Verified', 'No MEL', 'Ready to kit'],
+    ],
+  },
+  forecast: {
+    title: 'Demand forecast', subtitle: 'Mock demand outlook based on historical consumption',
+    columns: ['Part number', 'Current stock', '30-day demand', 'Forecast confidence', 'Signal', 'Recommendation'],
+    rows: [
+      ['PUMP-100', '4 verified', '6 units', '91%', 'Rising', 'Rebalance 2 units'],
+      ['VALVE-200', '0 compliant', '3 units', '88%', 'Critical', 'Create PO now'],
+      ['FILTER-318', '8 verified', '5 units', '86%', 'Stable', 'Maintain buffer'],
+      ['ACTUATOR-442', '0 compliant', '2 units', '82%', 'Rising', 'Create PO now'],
+    ],
+  },
+  procurement: {
+    title: 'Procurement details', subtitle: 'Mock purchase queue and approval status',
+    columns: ['PO reference', 'Part number', 'Quantity', 'Priority', 'Approval', 'Next step'],
+    rows: [
+      ['MOCK-PO-001', 'VALVE-200', '1', 'Critical · MEL', 'Pending approval', 'Review certificate'],
+      ['MOCK-PO-002', 'ACTUATOR-442', '1', 'High · demand', 'Draft', 'Route for approval'],
+      ['MOCK-PO-003', 'PUMP-100', '2', 'Medium · buffer', 'Approved', 'Mock transfer'],
+    ],
+  },
+};
+
 const rows = document.querySelector('#arrival-rows');
 const search = document.querySelector('#search-input');
 const filter = document.querySelector('#status-filter');
@@ -93,12 +125,24 @@ function renderDemandReport() {
   }).join('');
 }
 
+function renderDetailView(view) {
+  const panel = document.querySelector('#detail-view');
+  const detail = detailViews[view];
+  if (!detail) {
+    panel.hidden = true;
+    return;
+  }
+  panel.hidden = false;
+  panel.innerHTML = `<div class="panel-heading"><div><h2>${detail.title}</h2><p class="muted">${detail.subtitle}</p></div><span class="mock-tag">LOCAL MOCK VIEW</span></div><div class="table-scroll detail-table"><table><thead><tr>${detail.columns.map((column) => `<th>${column}</th>`).join('')}</tr></thead><tbody>${detail.rows.map((row) => `<tr>${row.map((cell, index) => `<td class="${index === row.length - 1 ? 'detail-action' : ''}">${cell}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+
 document.querySelectorAll('[data-view], [data-view-link]').forEach((control) => {
   control.addEventListener('click', () => {
     const view = control.dataset.view || control.dataset.viewLink;
     const labels = { overview: 'Overview', staging: 'Staging board', forecast: 'Demand forecast', procurement: 'Procurement' };
     document.querySelectorAll('.nav-item').forEach((item) => item.classList.toggle('active', item.dataset.view === view));
     document.querySelector('#page-title').textContent = labels[view];
+    renderDetailView(view);
     showToast(`${labels[view]} view is available in the mock workspace`);
   });
 });

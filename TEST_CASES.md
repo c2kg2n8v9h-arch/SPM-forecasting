@@ -47,6 +47,9 @@ All tests use deterministic local mock data. No test connects to live APIs, ERP/
 | UI-023 | Station transfers | Inspect the Station transfers panel | Active part movements show source station, destination station, and ETA/status |
 | UI-024 | Actual report | Open Actual vs forecast report | Actual numbers table shows seven dated rows with required, consumed, and variance values |
 | UI-025 | Graphical report | Inspect the graphical representation | Actual and Forecast series render together with a visible legend |
+| UI-026 | Staging board details | Select Staging board | Four aircraft visits show station, required part, documentation, MEL window, and next action |
+| UI-027 | Demand forecast details | Select Demand forecast | Four parts show stock, 30-day demand, confidence, signal, and recommendation |
+| UI-028 | Procurement details | Select Procurement | Three mock POs show quantity, priority, approval state, and next step |
 
 ## Execution
 

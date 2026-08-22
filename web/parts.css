@@ -46,6 +46,10 @@
 .part-info small { color: #93a0a2; font-size: 9px; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .part-due { color: var(--amber); font-size: 9px; font-weight: 600; white-space: nowrap; }
 .parts-panel .status-pill { font-size: 9px; padding: 4px 6px; white-space: nowrap; }
+.detail-view { margin-top: 17px; padding-bottom: 0; }
+.detail-view .panel-heading { margin-bottom: 14px; }
+.detail-table td { white-space: nowrap; }
+.detail-action { color: var(--teal); font-weight: 600; }
 
 .report-panel { margin-top: 17px; padding-bottom: 20px; }
 .report-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 30px; align-items: start; }

@@ -25,6 +25,11 @@ test.describe('operations dashboard', () => {
     test(`navigates to ${view}`, async ({ page }) => {
       await page.getByRole('button', { name: view, exact: false }).first().click();
       await expect(page.locator('#page-title')).toHaveText(view);
+      if (view !== 'Overview') {
+        await expect(page.locator('#detail-view')).toBeVisible();
+        await expect(page.locator('#detail-view h2')).toHaveText(view === 'Procurement' ? 'Procurement details' : view);
+        await expect(page.locator('#detail-view tbody tr')).toHaveCount(view === 'Procurement' ? 3 : 4);
+      }
     });
   }
 
