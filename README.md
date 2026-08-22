@@ -1,6 +1,6 @@
 # SPM Forecasting
 
-Small Python forecasting toolkit for SPM process data. It provides a dependency-light linear trend model and a command-line interface that reads historical values from CSV and writes forecasts to CSV.
+Mock-first Python toolkit for SPM process data and MRO operations. It provides forecasting, compliance-aware hangar staging, MEL deadline visibility, operational constraint alerts, and simulated procurement recommendations.
 
 ## Quick start
 
@@ -10,6 +10,7 @@ python -m venv .venv
 python -m pip install -e .
 python -m unittest discover
 spm-forecast --input data/sample.csv --periods 3
+spm-demo
 ```
 
 The input CSV must contain a `value` column and may include a `date` column. Example output is written to `forecast.csv` unless `--output` is provided.
@@ -24,6 +25,12 @@ The input CSV must contain a `value` column and may include a `date` column. Exa
 - `.github/workflows/ci.yml` runs linting and tests on every push and pull request.
 - `Dockerfile` and `Makefile` provide repeatable local and deployment workflows.
 - `data/sample.csv` contains a small example dataset.
+
+## Mock-only safety boundary
+
+`spm-demo` uses only deterministic fixtures in `infrastructure/mock_data.py`. The project intentionally has no HTTP clients, cloud SDKs, ERP/MRO connectors, email sender, credentials, telemetry exporter, or live-environment configuration. A purchase-order recommendation is printed as a `mock_pending_approval` artifact only; it is never emailed or submitted.
+
+The mock workflow treats a part as available only when its serialized record has verified airworthiness documentation. It also reports MEL urgency, missing stock, documentation quarantine, weather, and support-vehicle constraints.
 
 ## Development
 

@@ -16,6 +16,7 @@ dev = ["bandit>=1.7", "pip-audit>=2.7", "pytest>=8.0", "ruff>=0.6"]
 
 [project.scripts]
 spm-forecast = "spm_forecasting.cli:main"
+spm-demo = "spm_forecasting.interfaces.mock_demo:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
