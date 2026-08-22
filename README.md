@@ -26,6 +26,16 @@ The input CSV must contain a `value` column and may include a `date` column. Exa
 - `Dockerfile` and `Makefile` provide repeatable local and deployment workflows.
 - `data/sample.csv` contains a small example dataset.
 
+## Local UI
+
+The responsive operations dashboard is in `web/`. It uses bundled mock data only and makes no browser requests to APIs, fonts, analytics, email, or live systems.
+
+```powershell
+python -m http.server 8080 --directory web
+```
+
+Open `http://localhost:8080` to view the dashboard. Search, status filtering, navigation, refresh, and export controls are local demonstrations.
+
 ## Mock-only safety boundary
 
 `spm-demo` uses only deterministic fixtures in `infrastructure/mock_data.py`. The project intentionally has no HTTP clients, cloud SDKs, ERP/MRO connectors, email sender, credentials, telemetry exporter, or live-environment configuration. A purchase-order recommendation is printed as a `mock_pending_approval` artifact only; it is never emailed or submitted.

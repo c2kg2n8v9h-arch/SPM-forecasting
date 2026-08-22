@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Offline mock dashboard for MRO parts forecasting and staging">
+    <title>SPM | Operations Control</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <div class="brand">
+          <div class="brand-mark">SPM</div>
+          <div><strong>Service Parts</strong><span>Operations control</span></div>
+        </div>
+        <div class="workspace-label">Workspace</div>
+        <nav>
+          <button class="nav-item active" data-view="overview"><span class="nav-icon">◈</span>Overview</button>
+          <button class="nav-item" data-view="staging"><span class="nav-icon">▣</span>Staging board</button>
+          <button class="nav-item" data-view="forecast"><span class="nav-icon">⌁</span>Demand forecast</button>
+          <button class="nav-item" data-view="procurement"><span class="nav-icon">↗</span>Procurement</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="mock-lock"><span>●</span><div><strong>Mock mode</strong><small>All data is local</small></div></div>
+          <button class="user-row"><span class="avatar">AM</span><span><strong>Alex Morgan</strong><small>Material planner</small></span><span class="more">•••</span></button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb"><span>Operations</span><b>/</b><strong id="page-title">Overview</strong></div>
+          <div class="top-actions"><span class="sync-status"><i></i> Mock data synced just now</span><button class="icon-button" aria-label="Notifications">♢<em>3</em></button><button class="icon-button" aria-label="Help">?</button></div>
+        </header>
+
+        <div class="page-wrap">
+          <section class="page-heading">
+            <div><p class="eyebrow">Friday · 21 August 2026</p><h1>Good morning, Alex</h1><p class="muted">A clear view of what needs attention before the next departure window.</p></div>
+            <div class="heading-actions"><button class="secondary-button" id="refresh-button">↻ <span>Refresh mock data</span></button><button class="primary-button" id="export-button">↓ <span>Export briefing</span></button></div>
+          </section>
+
+          <section class="kpi-grid" aria-label="Operations summary">
+            <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">Aircraft monitored</span><span class="kpi-icon blue">✈</span></div><strong>24</strong><span class="kpi-detail positive">↑ 8.3% <small>vs last shift</small></span></article>
+            <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">Ready for arrival</span><span class="kpi-icon green">✓</span></div><strong>18<span class="denom"> / 24</span></strong><span class="kpi-detail positive">75% <small>pre-arrival readiness</small></span></article>
+            <article class="kpi-card warning-card"><div class="kpi-top"><span class="kpi-label">MEL deadlines</span><span class="kpi-icon amber">!</span></div><strong>3</strong><span class="kpi-detail caution">2 within 48 hours</span></article>
+            <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">Forecast accuracy</span><span class="kpi-icon purple">⌁</span></div><strong>87.4<span class="denom">%</span></strong><span class="kpi-detail positive">↑ 4.1% <small>this month</small></span></article>
+          </section>
+
+          <section class="content-grid">
+            <article class="panel readiness-panel">
+              <div class="panel-heading"><div><h2>Fleet readiness</h2><p class="muted">Incoming aircraft · next 24 hours</p></div><button class="text-button" data-view-link="staging">View staging board →</button></div>
+              <div class="readiness-summary"><div class="donut"><div><strong>75%</strong><span>ready</span></div></div><div class="legend"><div><i class="dot green-dot"></i><span>Ready</span><strong>18</strong></div><div><i class="dot amber-dot"></i><span>At risk</span><strong>3</strong></div><div><i class="dot red-dot"></i><span>Blocked</span><strong>3</strong></div></div></div>
+              <div class="mini-chart" aria-label="Readiness trend"><div class="chart-label">Readiness trend <span>Last 7 days</span></div><svg viewBox="0 0 600 120" role="img" aria-label="Readiness rising from 68 to 75 percent"><path class="grid-line" d="M0 95H600M0 55H600M0 15H600"/><path class="chart-area" d="M0 82 L85 75 L170 77 L255 60 L340 62 L425 42 L510 48 L600 28 L600 120 L0 120Z"/><path class="chart-line" d="M0 82 L85 75 L170 77 L255 60 L340 62 L425 42 L510 48 L600 28"/><circle cx="600" cy="28" r="5"/></svg><div class="chart-axis"><span>15 Aug</span><span>18 Aug</span><span>21 Aug</span></div></div>
+            </article>
+
+            <article class="panel alerts-panel">
+              <div class="panel-heading"><div><h2>Needs attention</h2><p class="muted">Prioritized operational exceptions</p></div><span class="count-badge">3 open</span></div>
+              <div class="alert-list">
+                <button class="alert-row"><span class="alert-mark red-bg">!</span><span class="alert-copy"><strong>Missing compliant part</strong><small>N200SP · VALVE-200 · JFK-H2</small></span><span class="alert-time">Now</span><span class="chevron">›</span></button>
+                <button class="alert-row"><span class="alert-mark amber-bg">◷</span><span class="alert-copy"><strong>MEL expires in 36 hours</strong><small>N100SP · PUMP-100 · LHR-H1</small></span><span class="alert-time">36h</span><span class="chevron">›</span></button>
+                <button class="alert-row"><span class="alert-mark blue-bg">↗</span><span class="alert-copy"><strong>PO awaiting approval</strong><small>VALVE-200 · 1 unit · mock ERP</small></span><span class="alert-time">1h</span><span class="chevron">›</span></button>
+              </div>
+              <button class="panel-footer" data-view-link="staging">Open exception queue <span>→</span></button>
+            </article>
+          </section>
+
+          <section class="panel arrivals-panel">
+            <div class="panel-heading table-heading"><div><h2>Arrival readiness</h2><p class="muted">Parts, documentation, and operational constraints by visit</p></div><div class="table-tools"><label class="search-box">⌕<input id="search-input" type="search" placeholder="Search tail or station" aria-label="Search tail or station"></label><select id="status-filter" aria-label="Filter readiness"><option value="all">All statuses</option><option value="green">Ready</option><option value="yellow">At risk</option><option value="red">Blocked</option></select></div></div>
+            <div class="table-scroll"><table><thead><tr><th>Aircraft / station</th><th>Arrival</th><th>Required parts</th><th>Compliance</th><th>Constraints</th><th>Status</th><th></th></tr></thead><tbody id="arrival-rows"></tbody></table></div>
+            <div class="table-footer"><span>Showing <strong id="row-count">4</strong> of 24 incoming aircraft</span><button class="text-button">View all arrivals →</button></div>
+          </section>
+          <footer class="page-footer"><span>SPM Operations Control · Offline demonstration</span><span><i></i> No live systems connected</span></footer>
+        </div>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
