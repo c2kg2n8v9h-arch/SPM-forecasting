@@ -49,10 +49,15 @@ test.describe('operations dashboard', () => {
 
   test('runs an explainable mock scenario and stores a local planner decision', async ({ page }) => {
     await page.locator('#scenario-select').selectOption('aog_shortage');
+    await expect(page.locator('#kpi-ready')).toHaveText('17 / 24');
+    await expect(page.locator('#kpi-mel')).toHaveText('4');
+    await expect(page.locator('#readiness-blocked')).toHaveText('5');
+    await expect(page.locator('#arrival-rows')).toContainText('AOG · 4h MEL');
     await expect(page.locator('#copilot-risk')).toContainText('Critical material risk');
     await expect(page.locator('#copilot-risk')).toContainText('within four hours');
     await page.getByRole('button', { name: 'Open related flight detail' }).click();
     await expect(page.locator('#flight-detail-panel')).toContainText('N100SP');
+    await expect(page.locator('#flight-detail-panel')).toContainText('Active mock scenario: AOG shortage');
 
     await page.getByRole('button', { name: 'Close detail' }).click();
     await page.getByRole('button', { name: 'Modify plan' }).click();
@@ -67,6 +72,8 @@ test.describe('operations dashboard', () => {
     await expect(page.locator('#copilot-title')).toHaveText('Mechanic readiness queue');
     await expect(page.locator('#copilot-subtitle')).toContainText('Severe weather');
     await expect(page.locator('#copilot-risk')).toContainText('Operational movement risk');
+    await expect(page.locator('#mock-context-bar')).toContainText('Severe weather');
+    await expect(page.locator('#mock-context-bar')).toContainText('Mechanic readiness queue');
   });
 
   for (const view of ['Overview', 'Staging board', 'Demand forecast', 'Procurement']) {

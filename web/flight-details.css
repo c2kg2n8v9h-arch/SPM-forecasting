@@ -3,11 +3,15 @@
 .kpi-value-button strong { display:block; color:var(--ink); font:700 28px 'Space Grotesk'; }
 .kpi-value-button:hover strong { color:var(--teal); }
 .kpi-value-button:focus-visible,.row-action:focus-visible,.detail-close:focus-visible { outline:3px solid #8ad4cf; outline-offset:3px; }
+.mock-context-bar { display:flex; align-items:center; flex-wrap:wrap; gap:9px; margin:-2px 0 17px; padding:10px 13px; border:1px solid #cfe4e3; border-radius:9px; background:#f7fcfb; color:#547074; font-size:11px; }
+.mock-context-bar strong { color:var(--ink); font-size:12px; }.mock-context-bar small { color:#718589; font-size:10px; flex:1 1 340px; }
 .flight-detail-panel { margin-top:17px; padding-bottom:20px; border-left:4px solid var(--teal); }
 .flight-detail-heading { align-items:flex-start; }
 .flight-detail-heading h2 { margin:0 0 6px; }
 .flight-detail-actions { display:flex; align-items:center; gap:9px; }
 .detail-close { padding:8px 12px; }
+.flight-scenario-note { display:flex; align-items:flex-start; gap:8px; margin:-4px 0 17px; padding:9px 11px; border-left:3px solid var(--amber); background:#fff8ea; color:#6d5a32; font-size:10px; line-height:1.45; }
+.flight-scenario-note strong { white-space:nowrap; }
 .flight-summary-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:19px 0; }
 .flight-summary-grid article { min-height:96px; border:1px solid #e1ecea; border-radius:7px; padding:13px; background:#fbfefd; }
 .flight-summary-grid span,.flight-summary-grid strong,.flight-summary-grid small { display:block; }
@@ -30,7 +34,9 @@
 
 @media (max-width:700px) {
   .kpi-value-button { margin-top:12px; }.kpi-value-button strong { font-size:24px; }
+  .mock-context-bar { align-items:flex-start; }.mock-context-bar small { flex-basis:100%; }
   .flight-detail-actions { width:100%; justify-content:space-between; }.flight-detail-heading { flex-direction:column; }
+  .flight-scenario-note { flex-direction:column; gap:3px; }.flight-scenario-note strong { white-space:normal; }
   .flight-summary-grid { grid-template-columns:1fr; }.flight-parts-heading { flex-direction:column; }
   .heading-actions { flex-wrap:wrap; }.mock-select { flex:1; }.mock-select select { width:100%; }.copilot-grid { grid-template-columns:1fr; }
 }

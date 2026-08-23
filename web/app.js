@@ -105,6 +105,17 @@ const scenarioContent = {
   severe_weather: { label: 'Severe weather', tail: 'N318SP', risk: 'Operational movement risk', explanation: 'Mock severe weather may delay material movement. The mechanic readiness card should remain a visible stop point.', alert: ['Weather may delay material movement', 'N318SP · FILTER-318 · DXB-H3', 'amber-bg', 'Watch'] },
 };
 
+// One deterministic state object drives the visible KPIs, readiness board, and arrival table.
+// This prevents a scenario label from disagreeing with the mock operational data on screen.
+const scenarioDashboard = {
+  normal: { ready: 18, atRisk: 3, blocked: 3, mel: 3, forecast: '87.4', forecastDetail: '↑ 4.1% <small>this month</small>', overrides: {} },
+  aog_shortage: { ready: 17, atRisk: 2, blocked: 5, mel: 4, forecast: '84.8', forecastDetail: '↓ 2.6% <small>AOG scenario</small>', overrides: { N100SP: { compliance: 'Missing', constraint: 'AOG · 4h MEL', status: 'red', label: 'Blocked' } } },
+  unverified_documentation: { ready: 17, atRisk: 3, blocked: 4, mel: 3, forecast: '86.1', forecastDetail: '↓ 1.3% <small>documentation hold</small>', overrides: { N200SP: { compliance: 'Quarantined', constraint: 'Certificate review', status: 'red', label: 'Blocked' } } },
+  supplier_delay: { ready: 17, atRisk: 4, blocked: 3, mel: 3, forecast: '85.6', forecastDetail: '↓ 1.8% <small>lead-time disruption</small>', overrides: { N200SP: { compliance: 'Pending arrival', constraint: 'Lead time · 14d', status: 'yellow', label: 'At risk' } } },
+  mel_urgency: { ready: 17, atRisk: 3, blocked: 4, mel: 4, forecast: '86.8', forecastDetail: '↓ 0.6% <small>MEL urgency</small>', overrides: { N100SP: { constraint: 'MEL · 4h', status: 'red', label: 'Blocked' } } },
+  severe_weather: { ready: 16, atRisk: 5, blocked: 3, mel: 3, forecast: '86.5', forecastDetail: '↓ 0.9% <small>weather disruption</small>', overrides: { N318SP: { constraint: 'Severe weather', status: 'red', label: 'Blocked' } } },
+};
+
 const roleContent = {
   planner: { title: 'Planner review queue', subtitle: 'Review readiness, MEL urgency, and safe next actions for the assigned mock visit.' },
   procurement: { title: 'Procurement review queue', subtitle: 'Review material risk and prepare a non-transmitted draft with approved alternatives.' },
@@ -156,7 +167,9 @@ const monthlySearch = document.querySelector('#monthly-search');
 
 function renderRows() {
   const query = search.value.trim().toLowerCase();
-  const filtered = arrivals.filter((item) => {
+  const state = scenarioDashboard[selectedScenario];
+  const scenarioArrivals = arrivals.map((item) => ({ ...item, ...state.overrides[item.tail] }));
+  const filtered = scenarioArrivals.filter((item) => {
     const matchesText = `${item.tail} ${item.station} ${item.part}`.toLowerCase().includes(query);
     return matchesText && (filter.value === 'all' || item.status === filter.value);
   });
@@ -217,6 +230,23 @@ function renderDetailView(view) {
   panel.innerHTML = `<div class="panel-heading"><div><h2>${detail.title}</h2><p class="muted">${detail.subtitle}</p></div><span class="mock-tag">LOCAL MOCK VIEW</span></div><div class="table-scroll detail-table"><table><thead><tr>${detail.columns.map((column) => `<th>${column}</th>`).join('')}</tr></thead><tbody>${detail.rows.map((row) => `<tr>${row.map((cell, index) => `<td class="${index === row.length - 1 ? 'detail-action' : ''}">${cell}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
 
+function renderScenarioDashboard() {
+  const state = scenarioDashboard[selectedScenario];
+  const readinessPercent = Math.round((state.ready / 24) * 100);
+  document.querySelector('#kpi-monitored').textContent = '24';
+  document.querySelector('#kpi-ready').innerHTML = `${state.ready}<span class="denom"> / 24</span>`;
+  document.querySelector('#kpi-ready-detail').innerHTML = `${readinessPercent}% <small>pre-arrival readiness</small>`;
+  document.querySelector('#kpi-mel').textContent = state.mel;
+  document.querySelector('#kpi-mel-detail').textContent = `${Math.min(state.mel, 3)} within 48 hours`;
+  document.querySelector('#kpi-forecast').innerHTML = `${state.forecast}<span class="denom">%</span>`;
+  document.querySelector('#kpi-forecast-detail').innerHTML = state.forecastDetail;
+  document.querySelector('#readiness-percent').textContent = `${readinessPercent}%`;
+  document.querySelector('#readiness-ready').textContent = state.ready;
+  document.querySelector('#readiness-risk').textContent = state.atRisk;
+  document.querySelector('#readiness-blocked').textContent = state.blocked;
+  renderRows();
+}
+
 function renderAlerts() {
   const scenario = scenarioContent[selectedScenario];
   const alerts = [scenario.alert, ['PO awaiting approval', 'VALVE-200 · 1 unit · mock ERP', 'blue-bg', '1h']];
@@ -237,6 +267,15 @@ function renderCopilot() {
     : '<div><strong>No simulated decisions yet</strong><small>Use a decision button to record local learning feedback.</small></div>';
 }
 
+function renderMockContext() {
+  const scenario = scenarioContent[selectedScenario];
+  const role = roleContent[selectedRole];
+  // Keep this summary above the fold so a selection always has visible feedback.
+  document.querySelector('#mock-context-bar').innerHTML = `
+    <span class="mock-tag">ACTIVE MOCK CONTEXT</span><strong>${scenario.label}</strong>
+    <span>${role.title}</span><small>${scenario.explanation}</small>`;
+}
+
 function renderFlightDetail(tail, source = 'dashboard') {
   const detail = flightDetails[tail];
   const panel = document.querySelector('#flight-detail-panel');
@@ -249,6 +288,7 @@ function renderFlightDetail(tail, source = 'dashboard') {
       <div><p class="eyebrow">MOCK FLIGHT DRILL-DOWN · selected from ${source}</p><h2>${detail.flight} · ${tail}</h2><p class="muted">${detail.route} · ${detail.station} · ${detail.arrival}</p></div>
       <div class="flight-detail-actions"><span class="status-pill status-${detail.tone}">${detail.status}</span><button class="secondary-button detail-close" data-close-flight-detail>Close detail</button></div>
     </div>
+    ${selectedScenario !== 'normal' ? `<div class="flight-scenario-note"><strong>Active mock scenario: ${scenarioContent[selectedScenario].label}</strong><span>${scenarioContent[selectedScenario].explanation}</span></div>` : ''}
     <div class="flight-summary-grid">
       <article><span>Flight and hangar</span><strong>${detail.hangar}</strong><small>${detail.gate} · ${detail.hangarStatus}</small></article>
       <article><span>Maintenance detail</span><strong>${detail.maintenance}</strong><small>Last: ${detail.lastMaintenance}<br>Next: ${detail.nextMaintenance}</small></article>
@@ -297,20 +337,24 @@ document.querySelector('#refresh-button').addEventListener('click', () => showTo
 document.querySelector('#export-button').addEventListener('click', () => showToast('Briefing prepared locally; no file was uploaded'));
 document.querySelector('#scenario-select').addEventListener('change', (event) => {
   selectedScenario = event.target.value;
+  renderScenarioDashboard();
   renderAlerts();
   renderCopilot();
+  renderMockContext();
   showToast(`Mock scenario selected: ${scenarioContent[selectedScenario].label}`);
 });
 document.querySelector('#role-select').addEventListener('change', (event) => {
   selectedRole = event.target.value;
   renderCopilot();
+  renderMockContext();
   showToast(`Mock workspace selected: ${roleContent[selectedRole].title}`);
 });
-renderRows();
+renderScenarioDashboard();
 renderMonthlyFlights();
 renderPartsOperations();
 renderDemandReport();
 renderHangars();
 renderAlerts();
 renderCopilot();
+renderMockContext();
 document.querySelector('#location-filter').addEventListener('change', renderHangars);
