@@ -39,7 +39,7 @@
         <div class="page-wrap">
           <section class="page-heading">
             <div><p class="eyebrow">Friday · 21 August 2026</p><h1>Good morning, Alex</h1><p class="muted">A clear view of what needs attention before the next departure window.</p></div>
-            <div class="heading-actions"><button class="secondary-button" id="refresh-button">↻ <span>Refresh mock data</span></button><button class="primary-button" id="export-button">↓ <span>Export briefing</span></button></div>
+            <div class="heading-actions"><label class="mock-select">Scenario<select id="scenario-select" aria-label="Select mock operational scenario"><option value="normal">Normal operations</option><option value="aog_shortage">AOG shortage</option><option value="unverified_documentation">Unverified documentation</option><option value="supplier_delay">Supplier delay</option><option value="mel_urgency">MEL urgency</option><option value="severe_weather">Severe weather</option></select></label><label class="mock-select">Workspace<select id="role-select" aria-label="Select mock workspace role"><option value="planner">Maintenance planner</option><option value="procurement">Procurement</option><option value="mechanic">Hangar mechanic</option><option value="auditor">Auditor</option></select></label><button class="secondary-button" id="refresh-button">↻ <span>Refresh mock data</span></button><button class="primary-button" id="export-button">↓ <span>Export briefing</span></button></div>
           </section>
 
           <section class="kpi-grid" aria-label="Operations summary">
@@ -68,13 +68,17 @@
 
             <article class="panel alerts-panel">
               <div class="panel-heading"><div><h2>Needs attention</h2><p class="muted">Prioritized operational exceptions</p></div><span class="count-badge">3 open</span></div>
-              <div class="alert-list">
+              <div class="alert-list" id="alert-list">
                 <button class="alert-row" data-flight-tail="N200SP"><span class="alert-mark red-bg">!</span><span class="alert-copy"><strong>Missing compliant part</strong><small>N200SP · VALVE-200 · JFK-H2</small></span><span class="alert-time">Now</span><span class="chevron">›</span></button>
                 <button class="alert-row" data-flight-tail="N100SP"><span class="alert-mark amber-bg">◷</span><span class="alert-copy"><strong>MEL expires in 36 hours</strong><small>N100SP · PUMP-100 · LHR-H1</small></span><span class="alert-time">36h</span><span class="chevron">›</span></button>
                 <button class="alert-row" data-flight-tail="N200SP"><span class="alert-mark blue-bg">↗</span><span class="alert-copy"><strong>PO awaiting approval</strong><small>VALVE-200 · 1 unit · mock ERP</small></span><span class="alert-time">1h</span><span class="chevron">›</span></button>
               </div>
               <button class="panel-footer" data-view-link="staging">Open exception queue <span>→</span></button>
             </article>
+          </section>
+          <section class="panel copilot-panel" aria-label="Material readiness copilot">
+            <div class="panel-heading"><div><p class="eyebrow">Material Readiness Copilot</p><h2 id="copilot-title">Planner review queue</h2><p class="muted" id="copilot-subtitle">Select a local scenario to review explainable mock risk.</p></div><span class="mock-tag">LOCAL DECISIONS ONLY</span></div>
+            <div class="copilot-grid"><div class="copilot-risk" id="copilot-risk"></div><div class="copilot-decision"><h3>Simulated decision</h3><p class="muted">Captures local learning feedback only. It never submits a work order or purchase order.</p><div class="decision-actions"><button class="secondary-button" data-decision="accepted">Accept draft</button><button class="secondary-button" data-decision="modified">Modify plan</button><button class="secondary-button" data-decision="rejected">Reject draft</button></div><div class="decision-feed" id="decision-feed" aria-live="polite"></div></div></div>
           </section>
 
           <section class="panel arrivals-panel">

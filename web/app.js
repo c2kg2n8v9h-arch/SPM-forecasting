@@ -96,6 +96,26 @@ const flightDetails = {
   },
 };
 
+const scenarioContent = {
+  normal: { label: 'Normal operations', tail: 'N100SP', risk: 'Low material risk', explanation: 'Verified mock stock is staged in the assigned hangar. Review remains required before work begins.', alert: ['MEL expires in 36 hours', 'N100SP · PUMP-100 · LHR-H1', 'amber-bg', '36h'] },
+  aog_shortage: { label: 'AOG shortage', tail: 'N100SP', risk: 'Critical material risk', explanation: 'No compliant mock PUMP-100 stock is available and the simulated MEL deadline is within four hours.', alert: ['Missing compliant part', 'N100SP · PUMP-100 · LHR-H1', 'red-bg', 'Now'] },
+  unverified_documentation: { label: 'Unverified documentation', tail: 'N200SP', risk: 'Compliance blocker', explanation: 'VALVE-200 is physically present but remains quarantined until its mock certificate is verified.', alert: ['Certificate verification required', 'N200SP · VALVE-200 · JFK-H2', 'red-bg', 'Now'] },
+  supplier_delay: { label: 'Supplier delay', tail: 'N200SP', risk: 'High lead-time risk', explanation: 'The simulated supplier delay extends lead time to 14 days. Evaluate transfer, repair, or compliant sourcing.', alert: ['Supplier lead-time disruption', 'N200SP · VALVE-200 · JFK-H2', 'amber-bg', '14d'] },
+  mel_urgency: { label: 'MEL urgency', tail: 'N100SP', risk: 'Critical time window', explanation: 'The simulated MEL deadline is within four hours. A planner must review the safe next action.', alert: ['MEL deadline within 4 hours', 'N100SP · PUMP-100 · LHR-H1', 'red-bg', '4h'] },
+  severe_weather: { label: 'Severe weather', tail: 'N318SP', risk: 'Operational movement risk', explanation: 'Mock severe weather may delay material movement. The mechanic readiness card should remain a visible stop point.', alert: ['Weather may delay material movement', 'N318SP · FILTER-318 · DXB-H3', 'amber-bg', 'Watch'] },
+};
+
+const roleContent = {
+  planner: { title: 'Planner review queue', subtitle: 'Review readiness, MEL urgency, and safe next actions for the assigned mock visit.' },
+  procurement: { title: 'Procurement review queue', subtitle: 'Review material risk and prepare a non-transmitted draft with approved alternatives.' },
+  mechanic: { title: 'Mechanic readiness queue', subtitle: 'Confirm parts, documentation, and constraints before starting mock work.' },
+  auditor: { title: 'Audit review queue', subtitle: 'Review the local mock decision trail and the evidence shown to each workspace.' },
+};
+
+let selectedScenario = 'normal';
+let selectedRole = 'planner';
+const localDecisions = [];
+
 const detailViews = {
   staging: {
     title: 'Staging board', subtitle: 'Live-style readiness view using local mock visits',
@@ -197,6 +217,26 @@ function renderDetailView(view) {
   panel.innerHTML = `<div class="panel-heading"><div><h2>${detail.title}</h2><p class="muted">${detail.subtitle}</p></div><span class="mock-tag">LOCAL MOCK VIEW</span></div><div class="table-scroll detail-table"><table><thead><tr>${detail.columns.map((column) => `<th>${column}</th>`).join('')}</tr></thead><tbody>${detail.rows.map((row) => `<tr>${row.map((cell, index) => `<td class="${index === row.length - 1 ? 'detail-action' : ''}">${cell}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
 
+function renderAlerts() {
+  const scenario = scenarioContent[selectedScenario];
+  const alerts = [scenario.alert, ['PO awaiting approval', 'VALVE-200 · 1 unit · mock ERP', 'blue-bg', '1h']];
+  document.querySelector('#alert-list').innerHTML = alerts.map(([title, copy, tone, time]) => `
+    <button class="alert-row" data-flight-tail="${scenario.tail}"><span class="alert-mark ${tone}">!</span><span class="alert-copy"><strong>${title}</strong><small>${copy}</small></span><span class="alert-time">${time}</span><span class="chevron">›</span></button>`).join('');
+}
+
+function renderCopilot() {
+  const scenario = scenarioContent[selectedScenario];
+  const role = roleContent[selectedRole];
+  document.querySelector('#copilot-title').textContent = role.title;
+  document.querySelector('#copilot-subtitle').textContent = `${scenario.label}: ${role.subtitle}`;
+  document.querySelector('#copilot-risk').innerHTML = `
+    <span class="risk-label">Explainable mock risk</span><h3>${scenario.risk}</h3><p>${scenario.explanation}</p>
+    <button class="text-button" data-flight-tail="${scenario.tail}">Open related flight detail →</button>`;
+  document.querySelector('#decision-feed').innerHTML = localDecisions.length
+    ? localDecisions.map((item) => `<div><strong>${item}</strong><small>Stored in this browser session only · no external action taken</small></div>`).join('')
+    : '<div><strong>No simulated decisions yet</strong><small>Use a decision button to record local learning feedback.</small></div>';
+}
+
 function renderFlightDetail(tail, source = 'dashboard') {
   const detail = flightDetails[tail];
   const panel = document.querySelector('#flight-detail-panel');
@@ -232,6 +272,14 @@ document.querySelectorAll('[data-view], [data-view-link]').forEach((control) => 
 });
 
 document.addEventListener('click', (event) => {
+  const decisionControl = event.target.closest('[data-decision]');
+  if (decisionControl) {
+    const decision = decisionControl.dataset.decision;
+    localDecisions.unshift(`${roleContent[selectedRole].title}: ${decision} · ${scenarioContent[selectedScenario].label}`);
+    renderCopilot();
+    showToast(`Mock decision recorded locally: ${decision}`);
+    return;
+  }
   const flightControl = event.target.closest('[data-flight-tail]');
   if (flightControl) {
     renderFlightDetail(flightControl.dataset.flightTail, 'dashboard');
@@ -247,9 +295,22 @@ filter.addEventListener('change', renderRows);
 monthlySearch.addEventListener('input', renderMonthlyFlights);
 document.querySelector('#refresh-button').addEventListener('click', () => showToast('Mock data refreshed locally'));
 document.querySelector('#export-button').addEventListener('click', () => showToast('Briefing prepared locally; no file was uploaded'));
+document.querySelector('#scenario-select').addEventListener('change', (event) => {
+  selectedScenario = event.target.value;
+  renderAlerts();
+  renderCopilot();
+  showToast(`Mock scenario selected: ${scenarioContent[selectedScenario].label}`);
+});
+document.querySelector('#role-select').addEventListener('change', (event) => {
+  selectedRole = event.target.value;
+  renderCopilot();
+  showToast(`Mock workspace selected: ${roleContent[selectedRole].title}`);
+});
 renderRows();
 renderMonthlyFlights();
 renderPartsOperations();
 renderDemandReport();
 renderHangars();
+renderAlerts();
+renderCopilot();
 document.querySelector('#location-filter').addEventListener('change', renderHangars);

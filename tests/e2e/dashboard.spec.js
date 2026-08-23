@@ -47,6 +47,28 @@ test.describe('operations dashboard', () => {
     await expect(page.locator('#flight-detail-panel')).toContainText('Singapore · SIN-H1');
   });
 
+  test('runs an explainable mock scenario and stores a local planner decision', async ({ page }) => {
+    await page.locator('#scenario-select').selectOption('aog_shortage');
+    await expect(page.locator('#copilot-risk')).toContainText('Critical material risk');
+    await expect(page.locator('#copilot-risk')).toContainText('within four hours');
+    await page.getByRole('button', { name: 'Open related flight detail' }).click();
+    await expect(page.locator('#flight-detail-panel')).toContainText('N100SP');
+
+    await page.getByRole('button', { name: 'Close detail' }).click();
+    await page.getByRole('button', { name: 'Modify plan' }).click();
+    await expect(page.locator('#decision-feed')).toContainText('modified · AOG shortage');
+    await expect(page.locator('#decision-feed')).toContainText('no external action taken');
+  });
+
+  test('adapts the local copilot language to the selected workspace', async ({ page }) => {
+    await page.locator('#role-select').selectOption('mechanic');
+    await page.locator('#scenario-select').selectOption('severe_weather');
+
+    await expect(page.locator('#copilot-title')).toHaveText('Mechanic readiness queue');
+    await expect(page.locator('#copilot-subtitle')).toContainText('Severe weather');
+    await expect(page.locator('#copilot-risk')).toContainText('Operational movement risk');
+  });
+
   for (const view of ['Overview', 'Staging board', 'Demand forecast', 'Procurement']) {
     test(`navigates to ${view}`, async ({ page }) => {
       await page.getByRole('button', { name: view, exact: false }).first().click();
