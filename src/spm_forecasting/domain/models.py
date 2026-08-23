@@ -3,7 +3,6 @@
 import math
 from dataclasses import dataclass
 
-
 MAX_OBSERVATIONS = 1_000_000
 MAX_FORECAST_PERIODS = 100_000
 

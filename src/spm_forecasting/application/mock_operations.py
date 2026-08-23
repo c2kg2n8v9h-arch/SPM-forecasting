@@ -16,7 +16,7 @@ from ..domain.operations import (
 class MockOperationsService:
     """Evaluate staging readiness using only data passed by the caller."""
 
-    approval_recipient: str = "yuvaraaj.d@gmail.com"
+    approval_recipient: str = "mock-approver@example.invalid"
 
     def staging_report(
         self,
@@ -58,6 +58,10 @@ class MockOperationsService:
         """Create approval artifacts when no compliant stock exists globally."""
         verified_stock = {part.part_number for part in inventory if part.airworthiness_verified}
         return tuple(
-            MockPurchaseOrder(part_number=part_number, quantity=1, approval_recipient=self.approval_recipient)
+            MockPurchaseOrder(
+                part_number=part_number,
+                quantity=1,
+                approval_recipient=self.approval_recipient,
+            )
             for part_number in sorted(set(required_parts) - verified_stock)
         )

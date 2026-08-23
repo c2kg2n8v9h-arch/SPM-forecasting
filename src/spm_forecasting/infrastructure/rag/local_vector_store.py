@@ -13,8 +13,8 @@ def _terms(value: str) -> set[str]:
     return set(_WORD_PATTERN.findall(value.lower()))
 
 
-class LocalVectorStore:
-    """JSON-backed retrieval adapter; replace with embeddings in production."""
+class LocalLexicalStore:
+    """JSON-backed lexical retrieval adapter for local development only."""
 
     def __init__(self, path: Path) -> None:
         self.path = path
@@ -43,3 +43,7 @@ class LocalVectorStore:
             if score > 0:
                 ranked.append(SearchResult(chunk=chunk, score=score))
         return sorted(ranked, key=lambda result: result.score, reverse=True)[:limit]
+
+
+# Backward-compatible name; migrate callers to LocalLexicalStore.
+LocalVectorStore = LocalLexicalStore

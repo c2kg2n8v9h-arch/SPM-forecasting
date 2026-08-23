@@ -1,7 +1,12 @@
 import unittest
 
 from spm_forecasting.application.mock_operations import MockOperationsService
-from spm_forecasting.domain.operations import AircraftVisit, GroundConstraints, PartRecord, Readiness
+from spm_forecasting.domain.operations import (
+    AircraftVisit,
+    GroundConstraints,
+    PartRecord,
+    Readiness,
+)
 
 
 class MockOperationsTests(unittest.TestCase):
@@ -22,4 +27,4 @@ class MockOperationsTests(unittest.TestCase):
         orders = self.service.purchase_order_recommendations(("P1",), ())
 
         self.assertEqual(orders[0].delivery_status, "mock_pending_approval")
-        self.assertEqual(orders[0].approval_recipient, "yuvaraaj.d@gmail.com")
+        self.assertEqual(orders[0].approval_recipient, "mock-approver@example.invalid")

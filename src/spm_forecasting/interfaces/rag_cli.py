@@ -5,7 +5,7 @@ from pathlib import Path
 
 from ..application.rag.answering import QuestionAnsweringService
 from ..application.rag.ingestion import DocumentIngestionService
-from ..infrastructure.rag.local_vector_store import LocalVectorStore
+from ..infrastructure.rag.local_vector_store import LocalLexicalStore
 from ..infrastructure.rag.openai_llm import OpenAILanguageModel
 
 
@@ -26,7 +26,7 @@ def main() -> None:
     ask.add_argument("--model", help="OpenAI model; defaults to SPM_LLM_MODEL or gpt-4o-mini")
     args = parser.parse_args()
 
-    store = LocalVectorStore(args.index)
+    store = LocalLexicalStore(args.index)
     if args.command == "ingest":
         count = DocumentIngestionService(store).ingest(args.input)
         print(f"Indexed {count} document chunks in {args.index}")

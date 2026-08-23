@@ -12,7 +12,7 @@ def linear_forecast(request: ForecastRequest) -> list[ForecastPoint]:
     denominator = sum((x - x_mean) ** 2 for x in x_values)
     slope = sum(
         (x - x_mean) * (value - y_mean)
-        for x, value in zip(x_values, values)
+        for x, value in zip(x_values, values, strict=True)
     ) / denominator
     intercept = y_mean - slope * x_mean
 
