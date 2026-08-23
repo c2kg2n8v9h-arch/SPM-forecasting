@@ -80,6 +80,7 @@
           <section class="panel copilot-panel" aria-label="Material readiness copilot">
             <div class="panel-heading"><div><p class="eyebrow">Material Readiness Copilot</p><h2 id="copilot-title">Planner review queue</h2><p class="muted" id="copilot-subtitle">Select a local scenario to review explainable mock risk.</p></div><span class="mock-tag">LOCAL DECISIONS ONLY</span></div>
             <div class="copilot-grid"><div class="copilot-risk" id="copilot-risk"></div><div class="copilot-decision"><h3>Simulated decision</h3><p class="muted">Captures local learning feedback only. It never submits a work order or purchase order.</p><div class="decision-actions"><button class="secondary-button" data-decision="accepted">Accept draft</button><button class="secondary-button" data-decision="modified">Modify plan</button><button class="secondary-button" data-decision="rejected">Reject draft</button></div><div class="decision-feed" id="decision-feed" aria-live="polite"></div></div></div>
+            <div class="table-scroll copilot-data-table"><table><thead><tr><th>Flight / hangar</th><th>Part / serial</th><th>Readiness evidence</th><th>Availability / timing</th><th>Safe next action</th></tr></thead><tbody id="copilot-data-rows"></tbody></table></div>
           </section>
 
           <section class="panel arrivals-panel">

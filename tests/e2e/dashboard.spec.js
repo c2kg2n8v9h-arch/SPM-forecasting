@@ -55,6 +55,9 @@ test.describe('operations dashboard', () => {
     await expect(page.locator('#arrival-rows')).toContainText('AOG · 4h MEL');
     await expect(page.locator('#copilot-risk')).toContainText('Critical material risk');
     await expect(page.locator('#copilot-risk')).toContainText('within four hours');
+    await expect(page.locator('#copilot-data-rows')).toContainText('N100SP');
+    await expect(page.locator('#copilot-data-rows')).toContainText('AOG · 4h MEL');
+    await expect(page.locator('#copilot-data-rows')).toContainText('Escalate material recovery plan');
     await page.getByRole('button', { name: 'Open related flight detail' }).click();
     await expect(page.locator('#flight-detail-panel')).toContainText('N100SP');
     await expect(page.locator('#flight-detail-panel')).toContainText('Active mock scenario: AOG shortage');
@@ -72,6 +75,7 @@ test.describe('operations dashboard', () => {
     await expect(page.locator('#copilot-title')).toHaveText('Mechanic readiness queue');
     await expect(page.locator('#copilot-subtitle')).toContainText('Severe weather');
     await expect(page.locator('#copilot-risk')).toContainText('Operational movement risk');
+    await expect(page.locator('#copilot-data-rows')).toContainText('Do not start until constraints are cleared');
     await expect(page.locator('#mock-context-bar')).toContainText('Severe weather');
     await expect(page.locator('#mock-context-bar')).toContainText('Mechanic readiness queue');
   });

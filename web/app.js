@@ -123,6 +123,15 @@ const roleContent = {
   auditor: { title: 'Audit review queue', subtitle: 'Review the local mock decision trail and the evidence shown to each workspace.' },
 };
 
+const scenarioActions = {
+  normal: { leadTime: 'On-station mock stock', planner: 'Review work pack before release', procurement: 'Maintain buffer; no draft needed', mechanic: 'Proceed only under approved procedure', auditor: 'Verify evidence trail' },
+  aog_shortage: { leadTime: '4-hour MEL window', planner: 'Escalate material recovery plan', procurement: 'Prepare non-transmitted draft and alternatives', mechanic: 'Do not proceed; escalate blocker', auditor: 'Verify shortage decision trail' },
+  unverified_documentation: { leadTime: 'Certificate review pending', planner: 'Hold visit until documentation clears', procurement: 'Request compliant documentation review', mechanic: 'Do not install quarantined part', auditor: 'Verify quarantine evidence' },
+  supplier_delay: { leadTime: 'Mock supplier lead time: 14 days', planner: 'Replan visit and assess transfer', procurement: 'Compare transfer, repair, and draft order', mechanic: 'Do not rely on delayed material', auditor: 'Review lead-time assumption' },
+  mel_urgency: { leadTime: '4-hour MEL window', planner: 'Prioritize approved recovery action', procurement: 'Prepare draft alternative immediately', mechanic: 'Pause work if material is not compliant', auditor: 'Verify urgency rationale' },
+  severe_weather: { leadTime: 'Movement timing uncertain', planner: 'Review weather and hangar constraints', procurement: 'Avoid commitment until movement clears', mechanic: 'Do not start until constraints are cleared', auditor: 'Verify operational constraint note' },
+};
+
 let selectedScenario = 'normal';
 let selectedRole = 'planner';
 const localDecisions = [];
@@ -257,11 +266,19 @@ function renderAlerts() {
 function renderCopilot() {
   const scenario = scenarioContent[selectedScenario];
   const role = roleContent[selectedRole];
+  const action = scenarioActions[selectedScenario];
+  const state = scenarioDashboard[selectedScenario];
+  const arrival = { ...arrivals.find((item) => item.tail === scenario.tail), ...state.overrides[scenario.tail] };
+  const part = flightDetails[scenario.tail].parts[0];
   document.querySelector('#copilot-title').textContent = role.title;
   document.querySelector('#copilot-subtitle').textContent = `${scenario.label}: ${role.subtitle}`;
   document.querySelector('#copilot-risk').innerHTML = `
     <span class="risk-label">Explainable mock risk</span><h3>${scenario.risk}</h3><p>${scenario.explanation}</p>
     <button class="text-button" data-flight-tail="${scenario.tail}">Open related flight detail →</button>`;
+  // The table uses the same deterministic scenario state as the KPI and arrival boards.
+  // It is intentionally one active record: users review one operational decision at a time.
+  document.querySelector('#copilot-data-rows').innerHTML = `
+    <tr><td><strong>${scenario.tail}</strong><small>${arrival.station} · ${scenario.label}</small></td><td><strong>${part.number}</strong><small>${part.serial}</small></td><td><span class="status-pill status-${arrival.status}">${arrival.label}</span><small>${arrival.compliance} · ${arrival.constraint}</small></td><td><strong>${part.condition}</strong><small>${action.leadTime}</small></td><td>${action[selectedRole]}</td></tr>`;
   document.querySelector('#decision-feed').innerHTML = localDecisions.length
     ? localDecisions.map((item) => `<div><strong>${item}</strong><small>Stored in this browser session only · no external action taken</small></div>`).join('')
     : '<div><strong>No simulated decisions yet</strong><small>Use a decision button to record local learning feedback.</small></div>';
