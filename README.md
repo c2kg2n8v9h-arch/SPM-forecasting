@@ -11,6 +11,8 @@ python -m pip install -e .
 python -m unittest discover
 spm-forecast --input data/sample.csv --periods 3
 spm-demo
+spm-rag ingest --input data/documents
+spm-rag ask --question "Which parts require verified documentation?"
 ```
 
 The input CSV must contain a `value` column and may include a `date` column. Example output is written to `forecast.csv` unless `--output` is provided.
@@ -23,6 +25,9 @@ The input CSV must contain a `value` column and may include a `date` column. Exa
 - `infrastructure/integration_ports.py` defines stable contracts for approved live adapters.
 - `infrastructure/runtime.py` selects providers and fails closed when live mode is unconfigured.
 - `interfaces/` contains entry points for CLI and future HTTP adapters.
+- `domain/rag.py` contains framework-independent RAG models.
+- `application/rag/` contains document ingestion and question-answering use cases.
+- `infrastructure/rag/` contains replaceable retrieval adapters. The default adapter is a local JSON-backed lexical index with no cloud or model dependency.
 - `tests/unit/` and `tests/integration/` separate fast business tests from boundary tests.
 - `TEST_CASES.md` lists the action and expected result for each automated scenario.
 - `.github/workflows/ci.yml` runs linting and tests on every push and pull request.
@@ -44,6 +49,28 @@ Open `http://localhost:8080` to view the dashboard. Search, status filtering, na
 `spm-demo` uses only deterministic fixtures in `infrastructure/mock_data.py`. The project intentionally has no HTTP clients, cloud SDKs, ERP/MRO connectors, email sender, credentials, telemetry exporter, or live-environment configuration. A purchase-order recommendation is printed as a `mock_pending_approval` artifact only; it is never emailed or submitted.
 
 The mock workflow treats a part as available only when its serialized record has verified airworthiness documentation. It also reports MEL urgency, missing stock, documentation quarantine, weather, and support-vehicle constraints.
+
+## Local RAG workflow
+
+The initial RAG implementation is local by default. It supports Markdown, text, and CSV files, splits them into overlapping chunks, stores the chunks in `data/rag_index/index.json`, and returns matching excerpts with source paths. It does not call an LLM or invent an answer when no indexed text matches.
+
+```powershell
+New-Item -ItemType Directory -Force data/documents
+spm-rag ingest --input data/documents
+spm-rag ask --question "Which parts require verified documentation?"
+```
+
+Install the optional OpenAI adapter and request a grounded generated answer:
+
+```powershell
+python -m pip install -e ".[rag]"
+$env:OPENAI_API_KEY = "your-key"
+spm-rag ask --llm --question "Which parts require verified documentation?"
+```
+
+The LLM receives only retrieved chunks and is instructed to cite their source paths. `spm-rag ask` remains offline unless `--llm` is explicitly provided.
+
+The retrieval boundary is defined in `infrastructure/rag/ports.py`, so a future embedding provider, vector database, or LLM can replace the local adapter without changing forecasting or domain code. Keep operational document metadata such as revision, station, part number, and effective date available when adding a production adapter.
 
 ## Live-system readiness
 

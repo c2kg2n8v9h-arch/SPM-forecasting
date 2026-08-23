@@ -12,11 +12,13 @@ authors = [{ name = "SPM Forecasting" }]
 dependencies = []
 
 [project.optional-dependencies]
+rag = ["openai>=1.0"]
 dev = ["bandit>=1.7", "pip-audit>=2.7", "pytest>=8.0", "ruff>=0.6"]
 
 [project.scripts]
 spm-forecast = "spm_forecasting.cli:main"
 spm-demo = "spm_forecasting.interfaces.mock_demo:main"
+spm-rag = "spm_forecasting.interfaces.rag_cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
