@@ -7,6 +7,7 @@
     <title>SPM | Operations Control</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="parts.css">
+    <link rel="stylesheet" href="flight-details.css">
     <link rel="stylesheet" href="apple-theme.css">
   </head>
   <body>
@@ -42,11 +43,12 @@
           </section>
 
           <section class="kpi-grid" aria-label="Operations summary">
-            <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">Aircraft monitored</span><span class="kpi-icon blue">✈</span></div><strong>24</strong><span class="kpi-detail positive">↑ 8.3% <small>vs last shift</small></span></article>
-            <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">Ready for arrival</span><span class="kpi-icon green">✓</span></div><strong>18<span class="denom"> / 24</span></strong><span class="kpi-detail positive">75% <small>pre-arrival readiness</small></span></article>
-            <article class="kpi-card warning-card"><div class="kpi-top"><span class="kpi-label">MEL deadlines</span><span class="kpi-icon amber">!</span></div><strong>3</strong><span class="kpi-detail caution">2 within 48 hours</span></article>
-            <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">Forecast accuracy</span><span class="kpi-icon purple">⌁</span></div><strong>87.4<span class="denom">%</span></strong><span class="kpi-detail positive">↑ 4.1% <small>this month</small></span></article>
+            <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">Aircraft monitored</span><span class="kpi-icon blue">✈</span></div><button class="kpi-value-button" data-flight-tail="N100SP" aria-label="View mock flight detail for aircraft monitored"><strong>24</strong></button><span class="kpi-detail positive">↑ 8.3% <small>vs last shift</small></span></article>
+            <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">Ready for arrival</span><span class="kpi-icon green">✓</span></div><button class="kpi-value-button" data-flight-tail="N100SP" aria-label="View mock flight detail for ready arrivals"><strong>18<span class="denom"> / 24</span></strong></button><span class="kpi-detail positive">75% <small>pre-arrival readiness</small></span></article>
+            <article class="kpi-card warning-card"><div class="kpi-top"><span class="kpi-label">MEL deadlines</span><span class="kpi-icon amber">!</span></div><button class="kpi-value-button" data-flight-tail="N100SP" aria-label="View mock flight detail for MEL deadlines"><strong>3</strong></button><span class="kpi-detail caution">2 within 48 hours</span></article>
+            <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">Forecast accuracy</span><span class="kpi-icon purple">⌁</span></div><button class="kpi-value-button" data-flight-tail="N318SP" aria-label="View mock flight detail for forecast accuracy"><strong>87.4<span class="denom">%</span></strong></button><span class="kpi-detail positive">↑ 4.1% <small>this month</small></span></article>
           </section>
+          <section class="panel flight-detail-panel" id="flight-detail-panel" aria-live="polite" hidden></section>
           <section class="panel detail-view" id="detail-view" hidden></section>
 
           <section class="panel report-panel">
@@ -67,9 +69,9 @@
             <article class="panel alerts-panel">
               <div class="panel-heading"><div><h2>Needs attention</h2><p class="muted">Prioritized operational exceptions</p></div><span class="count-badge">3 open</span></div>
               <div class="alert-list">
-                <button class="alert-row"><span class="alert-mark red-bg">!</span><span class="alert-copy"><strong>Missing compliant part</strong><small>N200SP · VALVE-200 · JFK-H2</small></span><span class="alert-time">Now</span><span class="chevron">›</span></button>
-                <button class="alert-row"><span class="alert-mark amber-bg">◷</span><span class="alert-copy"><strong>MEL expires in 36 hours</strong><small>N100SP · PUMP-100 · LHR-H1</small></span><span class="alert-time">36h</span><span class="chevron">›</span></button>
-                <button class="alert-row"><span class="alert-mark blue-bg">↗</span><span class="alert-copy"><strong>PO awaiting approval</strong><small>VALVE-200 · 1 unit · mock ERP</small></span><span class="alert-time">1h</span><span class="chevron">›</span></button>
+                <button class="alert-row" data-flight-tail="N200SP"><span class="alert-mark red-bg">!</span><span class="alert-copy"><strong>Missing compliant part</strong><small>N200SP · VALVE-200 · JFK-H2</small></span><span class="alert-time">Now</span><span class="chevron">›</span></button>
+                <button class="alert-row" data-flight-tail="N100SP"><span class="alert-mark amber-bg">◷</span><span class="alert-copy"><strong>MEL expires in 36 hours</strong><small>N100SP · PUMP-100 · LHR-H1</small></span><span class="alert-time">36h</span><span class="chevron">›</span></button>
+                <button class="alert-row" data-flight-tail="N200SP"><span class="alert-mark blue-bg">↗</span><span class="alert-copy"><strong>PO awaiting approval</strong><small>VALVE-200 · 1 unit · mock ERP</small></span><span class="alert-time">1h</span><span class="chevron">›</span></button>
               </div>
               <button class="panel-footer" data-view-link="staging">Open exception queue <span>→</span></button>
             </article>
@@ -83,7 +85,7 @@
           <section class="panel monthly-panel">
             <div class="panel-heading table-heading"><div><h2>August flight schedule</h2><p class="muted">All scheduled flights in the current mock month</p></div><div class="month-summary"><span><strong id="monthly-flight-count">12</strong> flights</span><span><strong>4</strong> stations</span><span><strong>3</strong> watch items</span></div></div>
             <div class="table-tools monthly-tools"><label class="search-box">⌕<input id="monthly-search" type="search" placeholder="Search flight, tail, or route" aria-label="Search monthly flights"></label><span class="mock-tag">MOCK SCHEDULE</span></div>
-            <div class="table-scroll"><table><thead><tr><th>Flight / aircraft</th><th>Route</th><th>Departure</th><th>Arrival</th><th>Station</th><th>Operational status</th></tr></thead><tbody id="monthly-flight-rows"></tbody></table></div>
+            <div class="table-scroll"><table><thead><tr><th>Flight / aircraft</th><th>Route</th><th>Departure</th><th>Arrival</th><th>Station</th><th>Operational status</th><th></th></tr></thead><tbody id="monthly-flight-rows"></tbody></table></div>
             <div class="table-footer"><span>Showing <strong id="monthly-row-count">12</strong> of 12 scheduled flights</span><span class="muted">Month: August 2026</span></div>
           </section>
           <section class="parts-grid" aria-label="Parts operations">

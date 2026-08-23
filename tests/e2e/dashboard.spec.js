@@ -21,6 +21,32 @@ test.describe('operations dashboard', () => {
     await expect(page.getByRole('heading', { name: 'Arrival readiness' })).toBeVisible();
   });
 
+  test('opens a complete local flight drill-down from a dashboard number', async ({ page }) => {
+    await page.getByRole('button', { name: 'View mock flight detail for MEL deadlines' }).click();
+
+    const detail = page.locator('#flight-detail-panel');
+    await expect(detail).toBeVisible();
+    await expect(detail).toContainText('SPM 109 · N100SP');
+    await expect(detail).toContainText('Hydraulic pump inspection');
+    await expect(detail).toContainText('PUMP-100');
+    await expect(detail).toContainText('Valid to Dec 2026');
+    await expect(detail).toContainText('LHR-H1');
+    await expect(detail).toContainText('NO LIVE INVENTORY');
+    await page.getByRole('button', { name: 'Close detail' }).click();
+    await expect(detail).toBeHidden();
+  });
+
+  test('opens the relevant flight detail from an arrival row and monthly flight', async ({ page }) => {
+    await page.getByRole('button', { name: 'Open mock flight detail for N200SP' }).first().click();
+    await expect(page.locator('#flight-detail-panel')).toContainText('VALVE-200');
+    await expect(page.locator('#flight-detail-panel')).toContainText('certificate verification required');
+
+    await page.getByRole('button', { name: 'Close detail' }).click();
+    await page.getByRole('button', { name: 'Open mock flight detail for N442SP' }).last().click();
+    await expect(page.locator('#flight-detail-panel')).toContainText('ACTUATOR-442');
+    await expect(page.locator('#flight-detail-panel')).toContainText('Singapore · SIN-H1');
+  });
+
   for (const view of ['Overview', 'Staging board', 'Demand forecast', 'Procurement']) {
     test(`navigates to ${view}`, async ({ page }) => {
       await page.getByRole('button', { name: view, exact: false }).first().click();
