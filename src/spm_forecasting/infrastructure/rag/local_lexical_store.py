@@ -43,7 +43,3 @@ class LocalLexicalStore:
             if score > 0:
                 ranked.append(SearchResult(chunk=chunk, score=score))
         return sorted(ranked, key=lambda result: result.score, reverse=True)[:limit]
-
-
-# Backward-compatible name; migrate callers to LocalLexicalStore.
-LocalVectorStore = LocalLexicalStore

@@ -23,7 +23,7 @@ flowchart TB
 
     subgraph Infrastructure[Infrastructure Layer]
         CHUNKER[Text chunker\ninfrastructure/rag/chunker.py]
-        STORE[LocalVectorStore\nJSON lexical index]
+        STORE[LocalLexicalStore\nJSON lexical index]
         LLM[OpenAILanguageModel\noptional provider]
         FILES[data/documents/]
         INDEX[data/rag_index/index.json]
@@ -53,7 +53,7 @@ flowchart TB
 - `application/rag/` coordinates ingestion and answering use cases.
 - `infrastructure/rag/` contains replaceable adapters.
 - `interfaces/` parses user input and prints results.
-- The default path uses `LocalVectorStore`; `--llm` explicitly enables the OpenAI adapter.
+- The default path uses `LocalLexicalStore`; `--llm` explicitly enables the OpenAI adapter.
 
 ## 2. End-to-End Flow Diagram
 

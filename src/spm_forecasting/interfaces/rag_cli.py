@@ -5,7 +5,7 @@ from pathlib import Path
 
 from ..application.rag.answering import QuestionAnsweringService
 from ..application.rag.ingestion import DocumentIngestionService
-from ..infrastructure.rag.local_vector_store import LocalLexicalStore
+from ..infrastructure.rag.local_lexical_store import LocalLexicalStore
 from ..infrastructure.rag.openai_llm import OpenAILanguageModel
 
 
