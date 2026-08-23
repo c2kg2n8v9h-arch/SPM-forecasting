@@ -44,6 +44,24 @@ python -m http.server 8080 --directory web
 
 Open `http://localhost:8080` to view the dashboard. Search, status filtering, navigation, refresh, and export controls are local demonstrations.
 
+## Local mock API
+
+The optional API simulates role-scoped planner and procurement workflows using
+only local fixtures. It listens only on `127.0.0.1`; it has no cloud, live
+identity, ERP/MRO, email, or external-network integration.
+
+```powershell
+python -m pip install -e ".[api,dev]"
+spm-mock-api
+```
+
+The API intentionally uses fixed mock identities through the `X-Mock-User`
+header: `planner-lhr`, `buyer-jfk`, and `auditor-demo`. This is a learning aid,
+not real authentication. Requests without a known identity are denied, records
+are scope-filtered, purchase orders remain non-transmitted drafts, and audit
+events contain metadata only. Open `http://127.0.0.1:8000/docs` to explore the
+local API contract.
+
 ## Mock-only safety boundary
 
 `spm-demo` uses only deterministic fixtures in `infrastructure/mock_data.py`. The project intentionally has no HTTP clients, cloud SDKs, ERP/MRO connectors, email sender, credentials, telemetry exporter, or live-environment configuration. A purchase-order recommendation is printed as a `mock_pending_approval` artifact only; it is never emailed or submitted.
