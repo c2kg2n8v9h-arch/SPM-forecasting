@@ -62,6 +62,24 @@ are scope-filtered, purchase orders remain non-transmitted drafts, and audit
 events contain metadata only. Open `http://127.0.0.1:8000/docs` to explore the
 local API contract.
 
+## Material Readiness Copilot (mock-only)
+
+The local API now simulates the decisions that connect material planning,
+procurement, and hangar execution. Every result is deterministic synthetic data,
+and every recommendation remains a human-reviewed draft.
+
+| Workflow | Mock user | Endpoint | What it demonstrates |
+| --- | --- | --- | --- |
+| Scenario simulation | Any known mock user | `GET /v1/mock/scenarios` | Normal, AOG shortage, documentation, supplier delay, MEL urgency, and weather scenarios. |
+| Material risk | Planner, buyer, or auditor | `GET /v1/mock/material-risks?hangar=LHR-H1&scenario=aog_shortage` | Risk level, score, reasons, lead time, and compliant-stock evidence. |
+| Mechanic readiness | Mechanic, planner, or auditor | `GET /v1/mock/mechanic-readiness?hangar=LHR-H1&scenario=aog_shortage` | Clear blockers and a safe-to-proceed/do-not-proceed instruction. |
+| Draft order | Buyer | `POST /v1/mock/purchase-order-drafts` | A non-transmitted recommendation with human-review alternatives. |
+| Decision learning | Planner or buyer | `POST /v1/mock/decisions` | Simulated accept/reject/modify feedback; auditors can view stored mock decisions. |
+
+Use `planner-lhr`, `buyer-jfk`, `mechanic-lhr`, or `auditor-demo` in the
+`X-Mock-User` header. Each identity can see only its assigned mock hangar. The
+API rejects unknown identities, unsupported roles, and out-of-scope hangars.
+
 ## Mock-only safety boundary
 
 `spm-demo` uses only deterministic fixtures in `infrastructure/mock_data.py`. The project intentionally has no HTTP clients, cloud SDKs, ERP/MRO connectors, email sender, credentials, telemetry exporter, or live-environment configuration. A purchase-order recommendation is printed as a `mock_pending_approval` artifact only; it is never emailed or submitted.

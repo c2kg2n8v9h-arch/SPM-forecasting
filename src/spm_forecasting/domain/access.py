@@ -7,6 +7,7 @@ from enum import StrEnum
 class Role(StrEnum):
     MAINTENANCE_PLANNER = "maintenance_planner"
     PROCUREMENT = "procurement"
+    HANGAR_MECHANIC = "hangar_mechanic"
     AUDITOR = "auditor"
 
 
@@ -25,6 +26,9 @@ MOCK_IDENTITIES: dict[str, MockIdentity] = {
     ),
     "buyer-jfk": MockIdentity(
         subject="buyer-jfk", role=Role.PROCUREMENT, allowed_hangars=frozenset({"JFK-H2"})
+    ),
+    "mechanic-lhr": MockIdentity(
+        subject="mechanic-lhr", role=Role.HANGAR_MECHANIC, allowed_hangars=frozenset({"LHR-H1"})
     ),
     "auditor-demo": MockIdentity(
         subject="auditor-demo", role=Role.AUDITOR, allowed_hangars=frozenset({"LHR-H1", "JFK-H2"})

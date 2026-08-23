@@ -4,6 +4,8 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from threading import Lock
 
+from ..domain.material_readiness import MockDecision
+
 
 @dataclass(frozen=True)
 class MockAuditEvent:
@@ -32,3 +34,16 @@ class MockAuditLog:
         with self._lock:
             self.events.append(event)
         return event
+
+
+@dataclass
+class MockDecisionLog:
+    """Stores simulated feedback to improve mock scenarios, never live operations."""
+
+    decisions: list[MockDecision] = field(default_factory=list)
+    _lock: Lock = field(default_factory=Lock, repr=False)
+
+    def record(self, decision: MockDecision) -> MockDecision:
+        with self._lock:
+            self.decisions.append(decision)
+        return decision
